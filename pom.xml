@@ -33,8 +33,7 @@
         <maven-antrun-plugin.version>1.3</maven-antrun-plugin.version>
     </properties>
     <modules>
-        <module>artisan-starter-html</module>
-        <module>artisan-starter-scripts</module>
+        <module>att-axeda-scripts</module>
     </modules>
     <build>
 
