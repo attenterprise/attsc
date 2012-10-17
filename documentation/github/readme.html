@@ -1,0 +1,43 @@
+<h1>Installation manual</h1>
+
+<h2>AT&amp;T PAAS Configuration</h2>
+
+<ol>
+<li>Please create an account in AT&amp;T PAAS,</li>
+<li>Then login to AT&amp;T PAAS using your credentials,</li>
+<li>When you login to the platform please select a <strong>Designer</strong> from the menu on the left,</li>
+<li>And choose <strong>Global Resources / Packages</strong> - the new tab will be opened in the middle of the window,</li>
+<li>Click on <strong>Install from File</strong> button which is on the top of the tab,</li>
+<li>Platform will redirect you to a form that allow you to select a file that you can upload. Please pick <strong>attsa_1.zip</strong> and click on <strong>Next</strong> button,</li>
+<li>On the next screen please select <strong>System Administrator</strong> role and then click on <strong>Install</strong> button,</li>
+<li>When the platform finish processing your test application will be ready to use it.</li>
+</ol>
+
+<h2>Axeda Configuration</h2>
+
+<ol>
+<li>Please create an account in Axeda</li>
+<li>Then log in to Axeda using your credentials,</li>
+<li>Click on the <strong>Configuration</strong> link on the right side, then choose New -&gt; Model</li>
+<li>Create model (named ex. <strong>ATTSC_Model</strong>, add some <strong>Model number</strong>), click <strong>Next</strong></li>
+<li>Add Data Item named <strong>isDamaged</strong>, type <strong>Digital</strong>, visible. Finish.</li>
+<li>Add new Custom Object: New -&gt; Custom Object</li>
+<li>Name object ex. ATTRest, type <strong>Action</strong>.</li>
+<li>Paste code from groovy script to area <strong>Source code</strong></li>
+<li>Configure parameters: <strong>lat</strong>, <strong>lng</strong>, <strong>serial</strong></li>
+<li>Finish</li>
+<li>Create Expression Rule: New -&gt; Expression Rule</li>
+<li>Name Expression Rule <strong>DeviceIsDamaged</strong>, type: <strong>Data</strong></li>
+<li>Click <strong>Apply to assets</strong> and check previously created Model</li>
+<li>Check <strong>Enabled</strong> and <strong>Execute each time rule evaluates to true</strong></li>
+<li>In <strong>If</strong> field put <strong>DataItem.isDamaged.value == 1</strong></li>
+<li>In <strong>Then</strong> field put <strong>ExecuteCustomObject(</strong>ATTRest<strong>, Device.serial,Location.location.lat,Location.location.lng)</strong></li>
+<li>Save</li>
+<li>Simulator: Go to <a href="http://dev6.axeda.com/apps/AssetSimulator/AssetSimulator.html">http://dev6.axeda.com/apps/AssetSimulator/AssetSimulator.html</a></li>
+<li>Enter your credentials</li>
+<li>Choose your Model and some asset</li>
+<li>Click on the tab <strong>Location</strong>, then locate and send</li>
+<li>Click on the tab <strong>Data</strong> and choose <strong>isDamaged</strong> (this should be the only one choose)</li>
+<li>Choose <strong>Boolean</strong>, enter value 1 and <strong>Send</strong></li>
+<li>Expression Rule should fire and add  record in <strong>Alerts</strong> object in AT&amp;T PAAS </li>
+</ol>
