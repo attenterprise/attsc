@@ -1,19 +1,17 @@
 package com.platform.c2125126633.locaid;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import com.att.enablers.locaid.LatitudeLongitudeServices;
-import com.att.enablers.locaid.LocAidAttributes;
 import com.att.enablers.locaid.RegistrationServices;
 import com.att.enablers.locaid.request.ClassIDList;
-import com.att.enablers.locaid.response.LocationAnswerResponseBean;
+import com.att.enablers.locaid.response.BaseResponseBean;
+import com.att.enablers.locaid.response.BaseTransactionResponseBean;
 import com.att.enablers.locaid.response.LocationResponseBean;
 import com.att.enablers.locaid.response.PhoneStatusListResponseBean;
 import com.att.enablers.locaid.response.SubscribePhoneAllResponseBean;
 import com.att.enablers.locaid.response.SubscribePhoneResponseBean;
-import com.platform.api.ControllerResponse;
 import com.platform.api.Functions;
 import com.platform.api.Logger;
 import com.platform.api.Parameters;
@@ -21,49 +19,12 @@ import com.platform.api.ParametersIterator;
 import com.platform.api.Result;
 
 /**
+ * Encapsulates methods for dealing with LocAid API.
+ * 
  * @author Magdalena Biała
  * 
  */
 public class LocAidManager {
-
-  protected static final String RECORD_ID = "id";
-  protected static final String RECORD_ID_LIST = "idlist";
-  protected static final String ACTION = "action";
-
-  @SuppressWarnings({ "unchecked", "rawtypes" })
-  protected ControllerResponse register(HashMap params) throws Exception {
-    LocAidSetup setup = getLocAidSetup();
-
-    // find phone numbers of the records that were selected
-    List<String> selectedPhones = findSelectedPhones(params);
-    if (selectedPhones == null || selectedPhones != null && selectedPhones.size() == 0) {
-      throw new Exception("Select one or more phones to register");
-    }
-
-    String command = (String) params.get("command");
-    if (command == null || command != null && command.isEmpty()) {
-      throw new Exception("Internal error - command is undefined for action register");
-    }
-
-    List<ClassIDList> classIdListObj = new ArrayList<ClassIDList>();
-    ClassIDList classIdList = new ClassIDList();
-    classIdList.setClassId(setup.getClassId());
-    List<String> msisdnList = classIdList.getMsisdnList();
-    for (String phone : selectedPhones) {
-      msisdnList.add(phone);
-    }
-    classIdListObj.add(classIdList);
-
-    RegistrationServices service = new RegistrationServices(setup.getRegistrationServiceUrl(), setup.getLogin(), setup.getPassword());
-    SubscribePhoneResponseBean subscribeResponse = service.subscribePhone(command, classIdListObj);
-
-    ControllerResponse cr = new ControllerResponse();
-    params.put("locaid_response", subscribeResponse);
-    cr.setData(params);
-    cr.setTargetPage("locAidDisplayRegistrationStatus.jsp");
-
-    return cr;
-  }
 
   public static LocAidSetup getLocAidSetup() throws Exception {
     Result searchResult = Functions.searchRecords("LocAid_Setup", "*", "");
@@ -101,24 +62,7 @@ public class LocAidManager {
     return setup;
   }
 
-  @SuppressWarnings("rawtypes")
-  protected List<String> findSelectedPhones(HashMap params) throws Exception {
-
-    // check single record id first
-    String record_id = (String) params.get(RECORD_ID);
-    if (record_id != null && record_id.trim().length() > 0 && record_id.matches("[0-9]+")) {
-      return getMsisdnList(record_id);
-    } else {
-      String record_id_list = (String) params.get(RECORD_ID_LIST);
-      if (record_id_list != null && record_id_list.trim().length() > 0) {
-        return getMsisdnList(record_id_list);
-      }
-    }
-
-    return null;
-  }
-
-  private List<String> getMsisdnList(String ids) throws Exception {
+  public List<String> getMsisdnList(String ids) throws Exception {
     List<String> msisdnList = null;
 
     String[] id_list = ids.split(",");
@@ -154,144 +98,107 @@ public class LocAidManager {
     return msisdnList;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  protected ControllerResponse registerAll(HashMap params) throws Exception {
+  /**
+   * @param command
+   * @param selectedPhones
+   * @return
+   * @throws Exception
+   */
+  protected SubscribePhoneResponseBean register(String command, List<String> selectedPhones) throws Exception {
     LocAidSetup setup = getLocAidSetup();
-    // find phone numbers of the records that were selected
-    List<String> selectedPhones = findSelectedPhones(params);
-    if (selectedPhones == null || selectedPhones != null && selectedPhones.size() == 0) {
-      throw new Exception("Select one or more phones to register");
-    }
 
-    String command = (String) params.get("command");
-    if (command == null || command != null && command.isEmpty()) {
-      throw new Exception("Internal error - command is undefined for action register");
+    List<ClassIDList> classIdListObj = new ArrayList<ClassIDList>();
+    ClassIDList classIdList = new ClassIDList();
+    classIdList.setClassId(setup.getClassId());
+    List<String> msisdnList = classIdList.getMsisdnList();
+    for (String phone : selectedPhones) {
+      msisdnList.add(phone);
     }
+    classIdListObj.add(classIdList);
 
     RegistrationServices service = new RegistrationServices(setup.getRegistrationServiceUrl(), setup.getLogin(), setup.getPassword());
-    SubscribePhoneAllResponseBean subscribeResponse = service.subscribePhoneAll(command, selectedPhones);
+    SubscribePhoneResponseBean subscribeResponse = service.subscribePhone(command, classIdListObj);
 
-    ControllerResponse cr = new ControllerResponse();
-    params.put("locaid_response", subscribeResponse);
-    cr.setData(params);
-    cr.setTargetPage("locAidDisplayRegistrationAllStatus.jsp");
-
-    return cr;
+    return subscribeResponse;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  protected ControllerResponse status(HashMap params) throws Exception {
+  /**
+   * @param command
+   * @param msisdnList
+   * @return
+   * @throws Exception
+   */
+  protected SubscribePhoneAllResponseBean registerAll(String command, List<String> msisdnList) throws Exception {
     LocAidSetup setup = getLocAidSetup();
-    // find phone numbers of the records that were selected
-    List<String> selectedPhones = findSelectedPhones(params);
-    if (selectedPhones == null || selectedPhones != null && selectedPhones.size() == 0) {
-      throw new Exception("Select one or more phones");
-    }
+
     RegistrationServices service = new RegistrationServices(setup.getRegistrationServiceUrl(), setup.getLogin(), setup.getPassword());
-    PhoneStatusListResponseBean statusResponseObj = service.getPhoneStatus(selectedPhones);
+    SubscribePhoneAllResponseBean subscribeResponse = service.subscribePhoneAll(command, msisdnList);
 
-    ControllerResponse cr = new ControllerResponse();
-    params.put("locaid_response", statusResponseObj);
-    cr.setData(params);
-    cr.setTargetPage("locAidDisplayGetPhoneStatus.jsp");
-
-    return cr;
+    return subscribeResponse;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  protected ControllerResponse latlongSingle(HashMap params) throws Exception {
+  /**
+   * @param msisdnList
+   * @return
+   * @throws Exception
+   */
+  protected BaseResponseBean status(List<String> msisdnList) throws Exception {
     LocAidSetup setup = getLocAidSetup();
-    // find phone numbers of the records that were selected
-    List<String> selectedPhones = findSelectedPhones(params);
-    if (selectedPhones == null || selectedPhones != null && selectedPhones.size() == 0) {
-      throw new Exception("Select one or more phones");
-    }
 
-    String coorType = (String) params.get("coorType");
-    if (coorType == null || coorType != null && coorType.isEmpty()) {
-      throw new Exception("Internal error - coordinate type is undefined for action latlong");
-    }
-    String locationMethod = (String) params.get("locationMethod");
-    if (locationMethod == null || locationMethod != null && locationMethod.isEmpty()) {
-      throw new Exception("Internal error - location method is undefined for action latlong");
-    }
-    String overage = (String) params.get("overage");
-    if (overage == null || overage != null && overage.isEmpty()) {
-      throw new Exception("Internal error - overage is undefined for action latlong");
-    }
+    RegistrationServices service = new RegistrationServices(setup.getRegistrationServiceUrl(), setup.getLogin(), setup.getPassword());
+    PhoneStatusListResponseBean response = service.getPhoneStatus(msisdnList);
 
-    // selectedPhones - should be just one
-    String phone = selectedPhones.get(0);
+    return response;
+  }
+
+  /**
+   * @param phone
+   * @param coorType
+   * @param locationMethod
+   * @param overage
+   * @return
+   * @throws Exception
+   */
+  protected BaseResponseBean latlongSingle(String phone, String coorType, String locationMethod, String overage) throws Exception {
+    LocAidSetup setup = getLocAidSetup();
 
     LatitudeLongitudeServices service = new LatitudeLongitudeServices(setup.getLocationServiceUrl(), setup.getLogin(), setup.getPassword(), setup.getClassId());
     LocationResponseBean locationResponseObj = service.getLocation(phone, coorType, locationMethod, Integer.valueOf(overage));
 
-    ControllerResponse cr = new ControllerResponse();
-    params.put("locaid_response", locationResponseObj);
-    cr.setData(params);
-    cr.setTargetPage("locAidDisplayLatLong.jsp");
-
-    return cr;
+    return locationResponseObj;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  protected ControllerResponse latlongMultiple(HashMap params) throws Exception {
+  /**
+   * @param selectedPhones
+   * @param coorType
+   * @param locationMethod
+   * @param syncType
+   * @param overage
+   * @return
+   * @throws Exception
+   */
+  protected BaseTransactionResponseBean latlongMultiple(List<String> selectedPhones, String coorType, String locationMethod, String syncType, String overage)
+      throws Exception {
     LocAidSetup setup = getLocAidSetup();
-    // find phone numbers of the records that were selected
-    List<String> selectedPhones = findSelectedPhones(params);
-    if (selectedPhones == null || selectedPhones != null && selectedPhones.size() == 0) {
-      throw new Exception("Select one or more phones");
-    }
-    String coorType = (String) params.get("coorType");
-    if (coorType == null || coorType != null && coorType.isEmpty()) {
-      throw new Exception("Internal error - coordinate type is undefined for action latlong");
-    }
-    String locationMethod = (String) params.get("locationMethod");
-    if (locationMethod == null || locationMethod != null && locationMethod.isEmpty()) {
-      throw new Exception("Internal error - location method is undefined for action latlong");
-    }
-    String syncType = (String) params.get("syncType");
-    if (syncType == null || syncType != null && syncType.isEmpty()) {
-      throw new Exception("Internal error - synchronization type is undefined for action latlong");
-    }
-    String overage = (String) params.get("overage");
-    if (overage == null || overage != null && overage.isEmpty()) {
-      throw new Exception("Internal error - overage is undefined for action latlong");
-    }
 
     LatitudeLongitudeServices service = new LatitudeLongitudeServices(setup.getLocationServiceUrl(), setup.getLogin(), setup.getPassword(), setup.getClassId());
-    LocationAnswerResponseBean locationResponseObj = service.getLocationsX(selectedPhones, coorType, locationMethod, syncType, Integer.valueOf(overage));
+    BaseTransactionResponseBean locationResponseObj = service.getLocationsX(selectedPhones, coorType, locationMethod, syncType, Integer.valueOf(overage));
 
-    ControllerResponse cr = new ControllerResponse();
-    params.put("locaid_response", locationResponseObj);
-    // save for answer retrieval later
-    if (LocAidAttributes.SyncType.ASYNC.equalsIgnoreCase(syncType) && locationResponseObj != null) {
-      params.put("origTransactionId", String.valueOf(locationResponseObj.getTransactionId()));
-    }
-    cr.setData(params);
-    cr.setTargetPage("locAidDisplayLatLongMultiple.jsp");
-
-    return cr;
+    return locationResponseObj;
   }
 
-  @SuppressWarnings({ "rawtypes", "unchecked" })
-  protected ControllerResponse latlongAnswer(HashMap params) throws Exception {
+  /**
+   * @param transactionId
+   * @return
+   * @throws Exception
+   */
+  protected BaseResponseBean latlongAnswer(String transactionId) throws Exception {
     LocAidSetup setup = getLocAidSetup();
-    String transactionId = (String) params.get("origTransactionId");
-    if (transactionId == null || transactionId != null && transactionId.isEmpty()) {
-      throw new Exception("Internal error - transaction ID is undefined for action latlong");
-    }
-
     // retrieve answer for the asynchronized request of geo-coordinates
     LatitudeLongitudeServices service = new LatitudeLongitudeServices(setup.getLocationServiceUrl(), setup.getLogin(), setup.getPassword(), setup.getClassId());
-    LocationAnswerResponseBean locationResponseObj = service.getLocationsAnswer(Long.parseLong(transactionId));
+    BaseResponseBean locationResponseObj = service.getLocationsAnswer(Long.parseLong(transactionId));
 
-    ControllerResponse cr = new ControllerResponse();
-    params.put("locaid_response", locationResponseObj);
-    cr.setData(params);
-    cr.setTargetPage("locAidDisplayLatLongMultiple.jsp");
-
-    return cr;
+    return locationResponseObj;
   }
 
 }

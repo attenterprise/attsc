@@ -4,7 +4,7 @@ import com.platform.api.Parameters;
 import com.platform.api.Logger;
 
 /**
- * Class that implements data policies used by Alarms object.
+ * Class that implements data policies used by Alerts object.
  * 
  * @author Magdalena Biala
  * 
