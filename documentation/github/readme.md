@@ -21,14 +21,14 @@
 6. Add new Custom Object: New -> Custom Object
 7. Name object ex. ATTRest, type **Action**.
 8. Paste code from groovy script to area **Source code**
-9. Configure parameters: **lat**, **lng**, **serial**
+9. Configure parameters: **serial**, **location**
 10. Finish
 11. Create Expression Rule: New -> Expression Rule
 12. Name Expression Rule **DeviceIsDamaged**, type: **Data**
 13. Click **Apply to assets** and check previously created Model
 14. Check **Enabled** and **Execute each time rule evaluates to true**
 15. In **If** field put **DataItem.isDamaged.value == 1**
-16. In **Then** field put **ExecuteCustomObject(**ATTRest**, Device.serial,Location.location.lat,Location.location.lng)**
+16. In **Then** field put **ExecuteCustomObject("ATTRest", Device.serial,Location.location)**
 17. Save
 18. Simulator: Go to [http://dev6.axeda.com/apps/AssetSimulator/AssetSimulator.html](http://dev6.axeda.com/apps/AssetSimulator/AssetSimulator.html)
 19. Enter your credentials
