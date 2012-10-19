@@ -5,10 +5,12 @@ Leverage AT&T cloud platforms to deliver your service.
 This project showcases the possibilities using AT&T's Axeda and Longjump platforms. 
 
 The project is built around the following use case :
-1. An M2M device provisioned on the AT&T network and having basic GSM & GPRS/EDGE connectivity. The device continuously delivers data to a central server. The device alarms a failure, and notifies the AT&T M2M Platform. The Monitoring Application is notified of the failure and initiates an automated repair procedure.
-1. Remote Diagnostics revealed that an on-site visit is necessary. AT&T M2M platform can resolve the address of the M2M device by looking it up in the installed equipment database. 
-1. The Application, then determines the closest repair engineer based on the location of the device. The AMS Cross-Carrier location service will be used to locate the engineers.
-1. The device of engineer ‘B’ is found to be closest to the faulty machine. A WO is created and engineer is notified.
+
+1. An M2M device provisioned on the AT&T network and having basic GSM & GPRS/EDGE connectivity. The device continuously delivers data to a central server. The device alarms a failure, and notifies the AT&T M2M Platform. The Monitoring Application is notified of the failure and initiates an automated repair procedure
+1. Remote Diagnostics revealed that an on-site visit is necessary. AT&T M2M platform can resolve the address of the M2M device by looking it up in the installed equipment database
+1. The Application, then determines the closest repair engineer based on the location of the device. The AMS Cross-Carrier location service will be used to locate the engineers
+1. The device of engineer ‘B’ is found to be closest to the faulty machine. A WO is created and engineer is notified
+
 
 # Getting Started
 ## Installation
