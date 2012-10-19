@@ -13,19 +13,10 @@ try {
 
   def resp = attPaas.post(path: "/networking/rest/login",
       requestContentType: XML,
-      contentType: XML,
+      contentType: JSON,
       body: xml);
 
-  def sessionId = "";
-
-  for (items in resp.getData().children()) {
-    for (item in items.children()) {
-      if (item.name() == 'sessionId') {
-        sessionId = item.text();
-      }
-    }
-  }
-
+  def sessionId = resp.getData().platform.login.sessionId
 
   // Parameters of broken Asset
   def serial = parameters.serial
@@ -47,6 +38,7 @@ try {
       requestContentType: URLENC,
       contentType: XML,
       headers: [Cookie : "JSESSIONID=" + sessionId]);
+    
 } catch(Exception e){
   logger.error(e.getMessage());
 }
