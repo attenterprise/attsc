@@ -19,14 +19,15 @@ import com.platform.api.Logger;
 import com.platform.api.Parameters;
 import com.platform.api.ParametersIterator;
 import com.platform.api.Result;
+import com.platform.c2125126633.alerts.LocationManager;
 
 /**
  * Encapsulates methods for dealing with LocAid API.
  * 
- * @author Magdalena Biała
+ * @author Magdalena Biala
  * 
  */
-public class LocAidManager {
+public class LocAidManager extends LocationManager {
 
   public static LocAidSetup getLocAidSetup() throws Exception {
     Result searchResult = Functions.searchRecords("LocAid_Setup", "*", "");
@@ -64,54 +65,6 @@ public class LocAidManager {
     return setup;
   }
 
-  public List<String> getMsisdnList(String ids) throws Exception {
-    List<String> msisdnList = null;
-
-    String[] id_list = ids.split(",");
-    String clause = "";
-    for (int i = 0; i < id_list.length; i++) {
-      if (i > 0) {
-        clause += " or ";
-      }
-      clause += "record_id =" + id_list[i];
-    }
-
-    Result result = Functions.searchRecords("Engineers", "msisdn", clause);
-    int resultCode = result.getCode();
-    if (resultCode < 0) {
-      // Some error happened.
-      String msg = "Engineers information could not be retrieved";
-      Logger.error(msg + ":(" + resultCode + ")" + result.getMessage(), LocAidManager.class);
-
-      Functions.throwError(msg + "."); // Error dialog
-    } else if (resultCode == 0) {
-      // No records found.
-    } else {
-      // Records retrieved successfully
-      msisdnList = new ArrayList<String>();
-      ParametersIterator iterator = result.getIterator();
-      while (iterator.hasNext()) {
-        Parameters params = iterator.next();
-        String msisdn = params.get("msisdn");
-        msisdnList.add(msisdn);
-      }
-    }
-
-    return msisdnList;
-  }
-
-  /**
-   * @param command
-   * @param selectedPhones
-   * @return
-   * @throws Exception
-   */
-  /**
-   * @param command
-   * @param selectedPhones
-   * @return
-   * @throws Exception
-   */
   protected SubscribePhoneResponseBean register(String command, List<String> selectedPhones) throws Exception {
     LocAidSetup setup = getLocAidSetup();
 
@@ -248,69 +201,44 @@ public class LocAidManager {
     return locationResponseObj;
   }
 
-  public String locateEngineer(String lat, String lng) throws Exception {
+  /**
+   * Method for locate the closest engineer.
+   * 
+   * @param lat
+   *          latitude of broken asset
+   * @param lng
+   *          longitude of broken asset
+   * @return msisdn of closest engineer.
+   * @throws Exception
+   */
+  @Override
+  public String locateClosestEngineer(String lat, String lng) throws Exception {
     String msisdn = null;
-    Result result = Functions.searchRecords("Engineers", "id, msisdn", "lis_subscription_status_2125126633='OPTIN_COMPLETE'");
-    int resultCode = result.getCode();
-    Logger.info("Result Code: " + resultCode, LocAidManager.class);
-    if (resultCode < 0) {
-      // Some error happened.
-      String msg = "Engineers could not be retrieved";
-      Functions.debug(msg + ":\n" + result.getMessage()); // Log details
-      Functions.throwError(msg + "."); // Error dialog
-    } else if (resultCode == 0) {
-      // No records found. Take action according to your business logic
+    List<String> msisdnList = searchEngineers("lis_subscription_status_2125126633='OPTIN_COMPLETE'", "msisdn");
+    LocationAnswerResponseBean response = latlongMultiple(msisdnList, "DECIMAL", "LEAST_EXPENSIVE", "syn", "1");
+    Logger.debug("status: " + response.getStatus(), LocAidManager.class);
+    if (response.getError() != null) {
+      Logger.error(response.getError().getErrorMessage(), LocAidManager.class);
     } else {
-      // Records retrieved successfully
-      List<String> msisdnList = new ArrayList<String>();
-      ParametersIterator iterator = result.getIterator();
-      while (iterator.hasNext()) {
-        Parameters params = iterator.next();
-        msisdnList.add(params.get("msisdn"));
-      }
-      Logger.debug(msisdnList, LocAidManager.class);
-      LocationAnswerResponseBean response = latlongMultiple(msisdnList, "DECIMAL", "LEAST_EXPENSIVE", "syn", "1");
       List<LocationResponseBean> list = response.getLocationResponse();
       double distance = Double.MAX_VALUE;
-      Logger.debug("list.size(): " + list.size(), LocAidManager.class);
       for (LocationResponseBean bean : list) {
-        if (bean.getStatus().equals("FOUND")) {
-          Logger.debug("Status:" + bean.getStatus(), LocAidManager.class);
-          double actualDistance = countDistance(Double.valueOf(lat), Double.valueOf(lng), Double.valueOf(bean.getCoordinateGeo().getY()),
-              Double.valueOf(bean.getCoordinateGeo().getX()));
-          Logger.debug("Msisdn: " + bean.getNumber(), LocAidManager.class);
-          Logger.debug("Coordinates: " + bean.getCoordinateGeo().getY() + ", " + bean.getCoordinateGeo().getX(), LocAidManager.class);
-          Logger.debug("Distance: " + actualDistance, LocAidManager.class);
-          if (actualDistance < distance) {
-            distance = actualDistance;
-            msisdn = bean.getNumber();
+        if (bean.getError() != null) {
+          Logger.error(bean.getError().getErrorMessage(), LocAidManager.class);
+        } else {
+          Logger.debug("status: " + bean.getStatus(), LocAidManager.class);
+          if (bean.getStatus().equals("FOUND")) {
+            double actualDistance = distanceFrom(Double.valueOf(lat), Double.valueOf(lng), Double.valueOf(bean.getCoordinateGeo().getY()),
+                Double.valueOf(bean.getCoordinateGeo().getX()));
+            if (actualDistance < distance) {
+              distance = actualDistance;
+              msisdn = bean.getNumber();
+            }
           }
         }
       }
     }
     return msisdn;
-  }
-
-  public static double countDistance(double lat1, double long1, double lat2, double long2) {
-    // var R = 6371; // km
-    double R = 6371;
-    // var dLat = (lat2 - lat1).toRad();
-    double dLat = Math.toRadians(lat2 - lat1);
-    // var dLon = (lon2 - lon1).toRad();
-    double dLon = Math.toRadians(long2 - long1);
-
-    // var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.sin(dLon / 2) *
-    double a = Math.sin(dLat / 2.0) * Math.sin(dLat / 2.0) + Math.sin(dLon / 2.0) *
-    // Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
-        Math.sin(dLon / 2.0) * Math.cos(lat1) * Math.cos(lat2);
-
-    // var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    double c = 2.0 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    // var d = R * c;
-    double d = R * c;
-    // return d;
-
-    return d;
   }
 
 }

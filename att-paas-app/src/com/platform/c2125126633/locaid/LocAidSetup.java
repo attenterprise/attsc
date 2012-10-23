@@ -3,7 +3,7 @@ package com.platform.c2125126633.locaid;
 /**
  * Class encapsulating setup information for LocAid.
  * 
- * @author Magdalena Biała
+ * @author Magdalena Biala
  * 
  */
 public class LocAidSetup {

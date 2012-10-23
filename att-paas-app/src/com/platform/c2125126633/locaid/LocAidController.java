@@ -1,5 +1,6 @@
 package com.platform.c2125126633.locaid;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,7 +18,7 @@ import com.platform.api.Logger;
  * Controller responsible for dispatch requests to appropriate methods from
  * LocAid API.
  * 
- * @author Magdalena Biała
+ * @author Magdalena Biala
  * 
  */
 public class LocAidController implements Controller {
@@ -212,19 +213,32 @@ public class LocAidController implements Controller {
 
   @SuppressWarnings("rawtypes")
   protected List<String> findSelectedPhones(HashMap params) throws Exception {
-
+    Logger.debug("params: " + params, LocAidController.class);
+    List<String> msisdnList = new ArrayList<String>();
+    String finalIds = "";
     // check single record id first
-    String record_id = (String) params.get(RECORD_ID);
-    if (record_id != null && record_id.trim().length() > 0 && record_id.matches("[0-9]+")) {
-      return manager.getMsisdnList(record_id);
+    String ids = (String) params.get(RECORD_ID);
+    if (ids != null && ids.trim().length() > 0 && ids.matches("[0-9]+")) {
+      finalIds = ids;
     } else {
-      String record_id_list = (String) params.get(RECORD_ID_LIST);
-      if (record_id_list != null && record_id_list.trim().length() > 0) {
-        return manager.getMsisdnList(record_id_list);
+      // if not, check multiple records
+      String idsList = (String) params.get(RECORD_ID_LIST);
+      if (idsList != null && idsList.trim().length() > 0) {
+        finalIds = idsList;
       }
     }
-
-    return null;
+    if (finalIds != null && finalIds.trim().length() > 0) {
+      String[] id_list = finalIds.split(",");
+      String clause = "";
+      for (int i = 0; i < id_list.length; i++) {
+        if (i > 0) {
+          clause += " or ";
+        }
+        clause += "record_id =" + id_list[i];
+      }
+      msisdnList = manager.searchEngineers(clause, "msisdn");
+    }
+    return msisdnList;
   }
 
   private enum Action {
