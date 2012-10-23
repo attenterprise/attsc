@@ -1,6 +1,18 @@
 import groovyx.net.http.RESTClient
 import static groovyx.net.http.ContentType.*
 
+
+/*
+ * Object name: ATTAssetIsDamaged
+ * 
+ * Script is responsible for propagating information about device failure to Long Jump.
+ * 
+ * Parameters:
+ * 
+ * serial - Device's serial number,
+ * location - Device's location.
+ */
+
 RESTClient attPaas = new RESTClient("http://paas1.attplatform.com/");
 
 // Credentials for AT&T platform

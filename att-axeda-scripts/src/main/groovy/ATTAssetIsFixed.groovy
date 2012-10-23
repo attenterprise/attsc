@@ -4,6 +4,16 @@ import static groovyx.net.http.ContentType.*
 
 RESTClient attPaas = new RESTClient("http://paas1.attplatform.com/");
 
+/*
+ * Object name: ATTAssetIsFixed
+ *
+ * Script is responsible for propagating information about fixed device to Long Jump.
+ *
+ * Parameters:
+ *
+ * serial - Device's serial number.
+ */
+
 // Credentials for AT&T platform
 String username = "1347644721";
 String password = "e21fe58b26048f43bb3b7ebdbf4cc918";
