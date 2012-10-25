@@ -13,6 +13,7 @@ import static groovyx.net.http.ContentType.*
  * location - Device's location.
  */
 
+// URL For PaaS connection
 RESTClient attPaas = new RESTClient("http://paas1.attplatform.com/");
 
 // Credentials for AT&T platform
