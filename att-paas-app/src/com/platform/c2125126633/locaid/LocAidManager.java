@@ -68,6 +68,7 @@ public class LocAidManager extends LocationManager {
   protected SubscribePhoneResponseBean register(String command, List<String> selectedPhones) throws Exception {
     LocAidSetup setup = getLocAidSetup();
 
+    Logger.info("Selected phones: " + selectedPhones, LocAidManager.class);
     List<ClassIDList> classIdListObj = new ArrayList<ClassIDList>();
     ClassIDList classIdList = new ClassIDList();
     classIdList.setClassId(setup.getClassId());
