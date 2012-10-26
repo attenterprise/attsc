@@ -85,20 +85,23 @@ When test assets are ready and you have objects that interacts with Long Jump yo
 1. And click Save
 
 ## Configuration
-**NOTE** These are provided here on a temporary basis. It is expected that the end-user will have their own credentials for theAxeda & longjump
-###Longjump
-Login URL: 	https://paas1.attplatform.com/
-User: 	1347644721
-Pass: 	e21fe58b26048f43bb3b7ebdbf4cc918
+**NOTE** These credentials are provided here on a temporary basis. This is to faccilate AT&T review and aceptance testing. 
+It is expected that the end-user will have their own credentials for the Axeda & PaaS platforms.
+
+###PaaS
+- Login URL: 	https://paas1.attplatform.com/
+- Username: 	1347644721
+- Password: 	e21fe58b26048f43bb3b7ebdbf4cc918
 
 ### Axeda:
-Login URL: 	http://developer.axeda.com/
-Alias: 	sentaca
-Email: 	magdalena.biala@sentaca.com
-Password: 	sentaca2012
+- Login URL: 	http://developer.axeda.com/
+- Alias: 	sentaca
+- Email: 	magdalena.biala@sentaca.com
+- Password: 	sentaca2012
 
 ## Testing
-You can test integration of both systems using Assets simulator which should be a part of a test account in Axeda. You should be able to test two types of events:
+You can test integration of both systems using Assets simulator which should be a part of a test account in Axeda. 
+You should be able to test two types of events:
 
 * reporing alerts by broken device
 * closing alerts by fixed device
