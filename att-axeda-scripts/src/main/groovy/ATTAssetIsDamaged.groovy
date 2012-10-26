@@ -14,7 +14,7 @@ import static groovyx.net.http.ContentType.*
  */
 
 // URL For PaaS connection
-RESTClient attPaas = new RESTClient("http://paas1.attplatform.com/");
+RESTClient paasRestClient = new RESTClient("http://paas1.attplatform.com/");
 
 // Credentials for AT&T platform
 String username = "1347644721";
@@ -22,32 +22,33 @@ String password = "e21fe58b26048f43bb3b7ebdbf4cc918";
 
 try {
   //Login to AT&T platform request
-  String xml = "<platform><login><userName>"+username+"</userName><password>"+password+"</password></login></platform>"
+  String loginXmlRequest = "<platform><login><userName>"+username+"</userName><password>"+password+"</password></login></platform>"
 
-  def resp = attPaas.post(path: "/networking/rest/login",
+  def loginResponse = paasRestClient.post(path: "/networking/rest/login",
       requestContentType: XML,
       contentType: JSON,
-      body: xml);
+      body: loginXmlRequest);
 
-  def sessionId = resp.getData().platform.login.sessionId
+  def sessionId = loginResponse.getData().platform.login.sessionId
 
   // Parameters of broken Asset
   def serial = parameters.serial
       
-  String loc = parameters.location;
-  def lat = loc.split(",")[0]
-  def lng =loc.split(",")[1]
+  String location = parameters.location;
+  def lat = location.split(",")[0]
+  def lng =location.split(",")[1]
+  
+  // Adding new record in AT&T PAAS
+  def newRecord = "<platform><record><device_id>"+serial+"</device_id><latitude>"+lat+"</latitude><longitude>"+lng+"</longitude><status>NEW</status></record></platform>";
 
-  def record = "<platform><record><device_id>"+serial+"</device_id><latitude>"+lat+"</latitude><longitude>"+lng+"</longitude><status>NEW</status></record></platform>";
-
-  resp = attPaas.post(path: "/networking/rest/record/Alerts",
+  paasRestClient.post(path: "/networking/rest/record/Alerts",
       requestContentType: XML,
       contentType: XML,
-      body: record,
+      body: newRecord,
       headers: [Cookie : "JSESSIONID=" + sessionId]);
 
   //Logout request
-  resp = attPaas.get(path: "/networking/rest/logout",
+  paasRestClient.get(path: "/networking/rest/logout",
       requestContentType: URLENC,
       contentType: XML,
       headers: [Cookie : "JSESSIONID=" + sessionId]);

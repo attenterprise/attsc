@@ -2,7 +2,7 @@ import groovyx.net.http.RESTClient
 import groovy.json.*
 import static groovyx.net.http.ContentType.*
 
-RESTClient attPaas = new RESTClient("http://paas1.attplatform.com/");
+RESTClient paasRestClient = new RESTClient("http://paas1.attplatform.com/");
 
 /*
  * Object name: ATTAssetIsFixed
@@ -20,15 +20,15 @@ String password = "e21fe58b26048f43bb3b7ebdbf4cc918";
 
 try {
   //Login to AT&T platform request
-  String xml = "<platform><login><userName>"+username+"</userName><password>"+password+"</password></login></platform>"
+  String loginXmlRequest = "<platform><login><userName>"+username+"</userName><password>"+password+"</password></login></platform>"
 
-  def resp = attPaas.post(path: "/networking/rest/login",
+  def loginResponse = paasRestClient.post(path: "/networking/rest/login",
       requestContentType: XML,
       contentType: JSON,
-      body: xml);
+      body: loginXmlRequest);
   
   // Identifier of current session
-  def sessionId = resp.getData().platform.login.sessionId
+  def sessionId = loginResponse.getData().platform.login.sessionId
   
   // Parameters of broken Asset
   def serial = parameters.serial
@@ -36,18 +36,18 @@ try {
   // Find active alert for Asset
   def filter = "device_id contains '" + serial + "' AND status != 'DONE'";
       
-  resp = attPaas.get(path: "/networking/rest/record/Alerts",
+  def searchResponse = paasRestClient.get(path: "/networking/rest/record/Alerts",
     requestContentType: JSON,
     contentType: JSON,
     params : [fieldList : "id,device_id,status", filter : filter],
     headers: [Cookie : "JSESSIONID=" + sessionId]);
   
-  def data = resp.getData()
+  def data = searchResponse.getData()
   
   def update = { recordId ->
       updateReq = "<platform><record><status>DONE</status></record></platform>"
 
-      attPaas.put(path: "/networking/rest/record/Alerts/" + recordId,
+      paasRestClient.put(path: "/networking/rest/record/Alerts/" + recordId,
         requestContentType: XML,
         contentType: JSON,
         body: updateReq,
@@ -64,8 +64,8 @@ try {
     }
   }
   
-  //Logout request
-  resp = attPaas.get(path: "/networking/rest/logout",
+  // Logout request
+  paasRestClient.get(path: "/networking/rest/logout",
       requestContentType: URLENC,
       contentType: XML,
       headers: [Cookie : "JSESSIONID=" + sessionId]);
