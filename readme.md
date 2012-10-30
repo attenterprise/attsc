@@ -57,10 +57,10 @@ At the beginning you should create a model of a device and a few test assets
 In the second step you should create custom objects that will be responsible for integration Axeda with Long Jump. 
 
 1. Please select **Add** from the top menu and then **Custom Object**
-1. The name of first object is **ATTAssetIsDamaged** and its type is **Data Rule**
+1. The name of first object is **ATTAssetIsDamaged** and its type is **Action**
 1. Source code of this object you can find in **att-axeda-scripts/src/main/groovy/ATTAssetIsDamaged.groovy**
 1. Please change your 'Long Jump' username and password in the script
-1. The object requires two parameters: **serial** and **location**
+1. The object requires two parameters: **serial**, **location** and **description**
 1. When changes are completed, click **Finish** in order to save it
 1. The second object should be called **ATTAssetIsFixed** and its type should be set to **Action**
 1. Source code of this object is in **att-axeda-scripts/src/main/groovy/ATTAssetIsFixed.groovy**
@@ -72,15 +72,15 @@ In the second step you should create custom objects that will be responsible for
 When test assets are ready and you have objects that interacts with Long Jump you should add rules that describes a interaction between them. We will need two expression rules: one for used for reporting that device is damaged and the other one for reporting that it was fixed.
 
 1. Create Expression Rule: Please select from the top menu **New** -> **Expression Rule**
-1. Name Expression Rule **DeviceIsDamaged**, type: **Data**
+1. Name Expression Rule **DeviceIsDamaged**, type: **Alarm**
 1. Click **Apply to assets** and check previously created Model
 1. Check **Enabled** and **Execute each time rule evaluates to true**
-1. In **If** field put **DataItem.isDamaged.value == 1**
-1. In **Then** field put **ExecuteCustomObject("ATTAssetIsDamaged", Device.serial, Location.location)**
+1. In **If** field put **true**
+1. In **Then** field put **ExecuteCustomObject("ATTAssetIsDamaged", Device.serial, Location.location, name)**
 1. And click Save
-1. The second expression rule should be called **DeviceIsFixed**, it's type should be set to **Data**
+1. The second expression rule should be called **DeviceIsFixed**, it's type should be set to **AlarmStateChange**
 1. It should be applied to the same assets as in first rule,
-1. In **If** field put **DataItem.isDamaged.value == 0**
+1. In **If** field put **state == "CLOSED"**
 1. In **Then** field put **ExecuteCustomObject("ATTAssetIsFixed", Device.serial)**
 1. And click Save
 
@@ -111,14 +111,13 @@ You should be able to test two types of events:
 1. Enter your credentials
 1. Choose your Model and some asset
 1. Click on the tab **Location**, then locate and send
-1. Click on the tab **Data** and choose **isDamaged** (this should be the only one option)
-1. Set the value to 1 and click on **Send**
-1. Expression Rule should fire and it shuould add a record in **Alerts** object in AT&T PAAS
+1. Click on the tab **Alarm**
+1. Type the name and click on **Send**
+1. Expression Rule should fire and it should add a record in **Alerts** object in AT&T PAAS
 
 ### Closing alerts
-1. Open Simulator: Go to [http://dev6.axeda.com/apps/AssetSimulator/AssetSimulator.html](http://dev6.axeda.com/apps/AssetSimulator/AssetSimulator.html)
+1. Open Platform: Go to [http://dev6.axeda.com](http://dev6.axeda.com)
 1. Enter your credentials
-1. Choose your Model and some asset
-1. Click on the tab **Data** and choose **isDamaged** (this should be the only one option)
-1. Set the value to 0 and click on **Send**
+1. Expand **Recent Assets** from the menu and choose the device for which you reported an alert
+1. Find the alert in device's details and close it
 1. Expression Rule should fire and it should change the status of an alert related with the asset to DONE.
