@@ -45,7 +45,7 @@ try {
     "<device_id>" + serial + "</device_id>" + 
     "<latitude>" + lat + "</latitude>" +
     "<longitude>" + lng + "</longitude>" +
-    "<description>" + description + "</description>"
+    "<description>" + description + "</description>" +
     "<status>NEW</status></record></platform>";
 
   paasRestClient.post(path: "/networking/rest/record/Alerts",
