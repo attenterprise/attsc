@@ -10,15 +10,16 @@ import static groovyx.net.http.ContentType.*
  * Parameters:
  * 
  * serial - Device's serial number,
- * location - Device's location.
+ * location - Device's location,
+ * description - Problem's description.
  */
 
 // URL For PaaS connection
 RESTClient paasRestClient = new RESTClient("http://paas1.attplatform.com/");
 
 // Credentials for AT&T platform
-String username = "1347644721";
-String password = "e21fe58b26048f43bb3b7ebdbf4cc918";
+String username = "1351178822";
+String password = "hjatwnspy19e";
 
 try {
   //Login to AT&T platform request
@@ -33,13 +34,19 @@ try {
 
   // Parameters of broken Asset
   def serial = parameters.serial
-      
+  def description = parameters.description
+  
   String location = parameters.location;
   def lat = location.split(",")[0]
   def lng =location.split(",")[1]
   
   // Adding new record in AT&T PAAS
-  def newRecord = "<platform><record><device_id>"+serial+"</device_id><latitude>"+lat+"</latitude><longitude>"+lng+"</longitude><status>NEW</status></record></platform>";
+  def newRecord = "<platform><record>" + 
+    "<device_id>" + serial + "</device_id>" + 
+    "<latitude>" + lat + "</latitude>" +
+    "<longitude>" + lng + "</longitude>" +
+    "<description>" + description + "</description>"
+    "<status>NEW</status></record></platform>";
 
   paasRestClient.post(path: "/networking/rest/record/Alerts",
       requestContentType: XML,

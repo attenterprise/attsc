@@ -15,8 +15,8 @@ RESTClient paasRestClient = new RESTClient("http://paas1.attplatform.com/");
  */
 
 // Credentials for AT&T platform
-String username = "1347644721";
-String password = "e21fe58b26048f43bb3b7ebdbf4cc918";
+String username = "1351178822";
+String password = "hjatwnspy19e";
 
 try {
   //Login to AT&T platform request
