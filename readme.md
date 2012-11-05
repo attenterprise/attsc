@@ -47,7 +47,7 @@ First we need to register on the platforms listed above, the registration proces
 1. Login using your credentials
 
 #### Model and assets
-At the beginning you should create a model of a device and a few test assets
+At the beginning you should create a device model and some test assets
 
 1. Click on the **Configuration** link on the right side, then choose **New** -> **Model**
 1. Create model (named ex. **ATTSC_Model**, add some **Model number**), click **Next**
@@ -84,20 +84,34 @@ When test assets are ready and you have objects that interacts with Long Jump yo
 1. In **Then** field put **ExecuteCustomObject("ATTAssetIsFixed", Device.serial)**
 1. And click Save
 
-## Configuration
-**NOTE** These credentials are provided here on a temporary basis. This is to faccilate AT&T review and aceptance testing. 
-It is expected that the end-user will have their own credentials for the Axeda & PaaS platforms.
+## Setup
+**AT&T M2M powered by Axeda**
+* The configuration for AT&T M2M powered by Axeda is listed in steps 3 and 8 in the *Custom Object* setup above. This is the entry of the AT&T PaaS credentials into the two groovy scripts. 
 
-###PaaS
-- Login URL: 	https://paas1.attplatform.com/
-- Username: 	1347644721
-- Password: 	e21fe58b26048f43bb3b7ebdbf4cc918
+**AT&T PaaS** 
+Once installed, the AT&T PaaS has a number of objects which must be setup. 
 
-### Axeda:
-- Login URL: 	http://developer.axeda.com/
-- Alias: 	sentaca
-- Email: 	magdalena.biala@sentaca.com
-- Password: 	sentaca2012
+* GSMS Setup
+As the name suggests, this refers to the AT&T Global Smart Messaging Suite configuration. The user specific details required here are
+1. Username
+1. Password
+As listed above, these can be obtained by registering at http://pte.att.com/GSMS
+
+* LocAid Setup
+This object contains the setup for the Location service Locaid. The user specific details required are
+1. Class ID
+1. Login
+1. Password
+
+* LocationSmart Setup
+This object contains the setup for the LocationSmart Location service. The user specific details required are
+1. Login
+1. Password
+
+* Location Service Setup
+This object specifies which Location Service should be used. The platform is build, so either LocAid or LocationSmart sevices can be used for Location Services. 
+To select, just chose either LocAid or LocationSmart from the the drop down box.
+**NOTE** This must be done at system setup time. To change after this time, all engineer location subscriptions must first be cancelled, then Location Service can be changed.
 
 ## Testing
 You can test integration of both systems using Assets simulator which should be a part of a test account in Axeda. 
