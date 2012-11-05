@@ -26,7 +26,8 @@ First we need to register on the platforms listed above, the registration proces
 
 * AT&T M2M powered by Axeda, Sandbox environment - https://att-sandbox.axeda.com
 * AT&T PaaS - https://paas1.attplatform.com/
-* Locaid - http://www.loc-aid.com/get-started
+* LocAid - http://pte.att.com/lis
+* LocationSmart - http://pte.att.com/lis
 * GSMS - http://pte.att.com/GSMS
 
 ## Installation
@@ -85,30 +86,35 @@ When test assets are ready and you have objects that interacts with Long Jump yo
 1. And click Save
 
 ## Setup
-**AT&T M2M powered by Axeda**
-* The configuration for AT&T M2M powered by Axeda is listed in steps 3 and 8 in the *Custom Object* setup above. This is the entry of the AT&T PaaS credentials into the two groovy scripts. 
+###AT&T M2M powered by Axeda
+The configuration for AT&T M2M powered by Axeda is listed in steps 3 and 8 in the *Custom Object* setup above. This is the entry of the AT&T PaaS credentials into the two groovy scripts. 
 
-**AT&T PaaS** 
+###AT&T PaaS
 Once installed, the AT&T PaaS has a number of objects which must be setup. 
 
-* GSMS Setup
+#### GSMS Setup
 As the name suggests, this refers to the AT&T Global Smart Messaging Suite configuration. The user specific details required here are
-1. Username
-1. Password
-As listed above, these can be obtained by registering at http://pte.att.com/GSMS
+* Username
+* Password
 
-* LocAid Setup
+As listed above, these credentials can be obtained by registering at http://pte.att.com/GSMS
+
+#### LocAid Setup
 This object contains the setup for the Location service Locaid. The user specific details required are
-1. Class ID
-1. Login
-1. Password
+* Class ID
+* Login
+* Password
 
-* LocationSmart Setup
+As listed above, these credentials can be obtained by registering at http://pte.att.com/lis
+
+#### LocationSmart Setup
 This object contains the setup for the LocationSmart Location service. The user specific details required are
-1. Login
-1. Password
+* Login
+* Password
 
-* Location Service Setup
+As listed above, these credentials can be obtained by registering at http://pte.att.com/lis
+
+#### Location Service Setup
 This object specifies which Location Service should be used. The platform is build, so either LocAid or LocationSmart sevices can be used for Location Services. 
 To select, just chose either LocAid or LocationSmart from the the drop down box.
 **NOTE** This must be done at system setup time. To change after this time, all engineer location subscriptions must first be cancelled, then Location Service can be changed.
