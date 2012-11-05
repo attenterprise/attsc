@@ -4,9 +4,9 @@ Leverage AT&T platforms to deliver your services.
 ## Project Description
 This project showcases the possibilities using AT&T's services and platforms. A brief description of the platforms and services used by this project are as follows
 
-* **Axeda** - An M2M cloud service
+* **AT&T M2M powered by Axeda** - An M2M cloud service
 * **AT&T Platform as a Service (PaaS)** - A complete development environment to build and launch custom applications quickly
-* **Location Smart & Locaid** - Location services
+* **LocationSmart & Locaid** - Location services
 * **AT&T Global Smart Messaging Suite (GSMS)** - Web-based messaging service
 
 To best highlight the possibilities and capabilities of these services, the following scenario was defined :
@@ -24,7 +24,7 @@ This project showcases how this is achieved using AT&T's platforms and services.
 ## Registration
 First we need to register on the platforms listed above, the registration process is easy and straight forward.
 
-* AT&T Axeda sandbox - https://att-sandbox.axeda.com
+* AT&T M2M powered by Axeda, Sandbox environment - https://att-sandbox.axeda.com
 * AT&T PaaS - https://paas1.attplatform.com/
 * Locaid - http://www.loc-aid.com/get-started
 * GSMS - http://pte.att.com/GSMS
@@ -42,9 +42,9 @@ First we need to register on the platforms listed above, the registration proces
 1. On the next screen please select **System Administrator** role and then click on **Install** button
 1. When the platform finish processing your test application will be ready to use it
 
-### Axeda Configuration
+### AT&T M2M powered by Axeda Configuration
 
-1. Log into Axeda using your credentials
+1. Login using your credentials
 
 #### Model and assets
 At the beginning you should create a model of a device and a few test assets
