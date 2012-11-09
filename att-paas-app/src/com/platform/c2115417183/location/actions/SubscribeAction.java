@@ -11,10 +11,10 @@ public class SubscribeAction extends LocationControllerAction {
   @Override
   public ControllerResponse execute(LocationService locationService, LocationControllerParameters params) throws Exception {
     Logger.info("Subscribe Action", SubscribeAction.class);
-    
-    locationService.subscribe(params.getAllMSISDNs());
-    
-    return successMessage("Engineers were subscribed to LIS", "For numbers: " + params.getAllMSISDNs());
+
+    locationService.subscribe(params.getMSISDN());
+
+    return successMessage("Engineers were subscribed to LIS", "For number: " + params.getMSISDN());
   }
 
 }

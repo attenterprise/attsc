@@ -28,10 +28,10 @@ public class EngineersService {
    */
   public List<String> searchEngineers(String clause, String field) throws Exception {
     List<String> msisdnList = new ArrayList<String>();
-    Logger.debug("clause: " + clause + ", field: " + field, EngineersService.class);
+    Logger.info("Engineer's search. clause: " + clause + ", field: " + field, EngineersService.class);
     Result result = Functions.searchRecords("Engineers", field, clause);
     int resultCode = result.getCode();
-    Logger.debug("resultCode: " + resultCode, EngineersService.class);
+    Logger.info("resultCode: " + resultCode, EngineersService.class);
     if (resultCode < 0) {
       // Some error happened.
       String msg = "Engineers could not be retrieved";
@@ -96,7 +96,8 @@ public class EngineersService {
 
     double deviceLatitude = Double.valueOf(lat);
     double deviceLongitude = Double.valueOf(lng);
-    List<String> msisdnList = searchEngineers("lis_subscription_status='OPTIN_COMPLETE'", "msisdn");
+
+    List<String> msisdnList = searchEngineers("lis_subscription_status='SUBSCRIBED' AND gsms_subscription_status='SUBSCRIBED'", "msisdn");
 
     String msisdn = null;
     double distance = Double.MAX_VALUE;

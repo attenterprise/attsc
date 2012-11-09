@@ -6,47 +6,55 @@ import com.platform.api.ParametersIterator;
 import com.platform.api.Result;
 
 public class LocationSmartSetup {
-  
+
   private static final String UNKNOWN = "unknown";
 
   private final String serviceUrl;
-  private final String login;
+  private final String username;
   private final String password;
+  private final String subscriptionGroup;
 
-  public LocationSmartSetup(String serviceUrl, String login, String password) {
+  public LocationSmartSetup(String serviceUrl, String username, String password, String subscriptionGroup) {
     this.serviceUrl = serviceUrl;
-    this.login = login;
+    this.username = username;
     this.password = password;
+    this.subscriptionGroup = subscriptionGroup;
   }
 
   public String getServiceUrl() {
     return serviceUrl;
   }
 
-  public String getLogin() {
-    return login;
+  public String getUsername() {
+    return username;
   }
 
   public String getPassword() {
     return password;
   }
-  
+
+  public String getSubscriptionGroup() {
+    return subscriptionGroup;
+  }
+
   public static LocationSmartSetup getInstance() throws Exception {
     String serviceUrl = UNKNOWN;
     String username = UNKNOWN;
     String password = UNKNOWN;
-    
-    Result searchResult = Functions.searchRecords("Location_Smart_Setup", "*", "");
+    String subscriptionGroup = UNKNOWN;
+
+    Result searchResult = Functions.searchRecords("LocationSmart_Setup", "*", "");
     ParametersIterator resultIterator = searchResult.getIterator();
-    
+
     if (resultIterator.hasNext()) {
       Parameters parameters = resultIterator.next();
-      
+
       serviceUrl = parameters.get("service_url");
-      username = parameters.get("login");
+      username = parameters.get("username");
       password = parameters.get("password");
+      subscriptionGroup = parameters.get("subscription_group");
     }
-    
-    return new LocationSmartSetup(serviceUrl, username, password);
+
+    return new LocationSmartSetup(serviceUrl, username, password, subscriptionGroup);
   }
 }

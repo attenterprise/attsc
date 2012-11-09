@@ -5,7 +5,6 @@ import java.util.Map;
 
 import com.platform.api.Controller;
 import com.platform.api.ControllerResponse;
-import com.platform.c2115417183.location.actions.ConfirmSubscriptionAction;
 import com.platform.c2115417183.location.actions.GetLocationAction;
 import com.platform.c2115417183.location.actions.SubscribeAction;
 import com.platform.c2115417183.location.actions.UnsubscribeAction;
@@ -14,8 +13,8 @@ public class LocationController implements Controller {
 
   public static final String ACTION_PARAMETER = "action";
   public static final String IDS_PARAMETER = "ids";
+  public static final String ID_PARAMETER = "id";
 
-  private static final String CONFIRM_SUBSCRIPTION_ACTION = "confirm_subscription";
   private static final String GET_LOCATION_ACTION = "get_location";
   private static final String SUBSCRIBE_ACTION = "subscribe";
   private static final String UNSUBSCRIBE_ACTION = "unsubscribe";
@@ -26,13 +25,13 @@ public class LocationController implements Controller {
 
     if (setup.isCorrectlyConfigured()) {
       final LocationService locationService = LocationServiceFactory.getNewLocationService(setup);
-      
+
       return executeAction(locationService, requestParams);
     } else {
       return reportError("Location Service hasn't been selected in 'Location Service Setup'");
     }
   }
-  
+
   @SuppressWarnings("rawtypes")
   private ControllerResponse executeAction(LocationService locationService, HashMap requestParams) throws Exception {
     final String actionName = (String) requestParams.get(ACTION_PARAMETER);
@@ -43,8 +42,6 @@ public class LocationController implements Controller {
       action = new GetLocationAction();
     } else if (UNSUBSCRIBE_ACTION.equals(actionName)) {
       action = new UnsubscribeAction();
-    } else if (CONFIRM_SUBSCRIPTION_ACTION.equals(actionName)) {
-      action = new ConfirmSubscriptionAction();
     } else if (SUBSCRIBE_ACTION.equals(actionName)) {
       action = new SubscribeAction();
     } else {
@@ -53,15 +50,15 @@ public class LocationController implements Controller {
 
     return action.execute(locationService, params);
   }
-  
+
   private ControllerResponse reportError(String errorMessage) {
-    Map<String, String> params = new HashMap<String, String>(); 
+    Map<String, String> params = new HashMap<String, String>();
     params.put("error_message", errorMessage);
-    
+
     ControllerResponse errorResponse = new ControllerResponse();
     errorResponse.setData(params);
     errorResponse.setTargetPage("locationControllerStatus.jsp");
-    
+
     return errorResponse;
   }
 }

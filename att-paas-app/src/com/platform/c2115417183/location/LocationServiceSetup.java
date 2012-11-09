@@ -36,16 +36,16 @@ public class LocationServiceSetup {
     LocationService service = LocationService.NONE;
     
     try {
-      final Result searchResult = Functions.searchRecords("Location_Service_Setup", "*", "");
+      final Result searchResult = Functions.searchRecords("LIS_Setup", "*", "");
       final ParametersIterator searchResultIterator = searchResult.getIterator();
       
       if (searchResultIterator.hasNext()) {
         final Parameters parameters = searchResultIterator.next();
         final String serviceName = parameters.get("service");
         
-        if ("Loc Aid".equals(serviceName)) {
+        if ("LocAid".equals(serviceName)) {
           service = LocationService.LOC_AID;
-        } else if ("Location Smart".equals(serviceName)) {
+        } else if ("LocationSmart".equals(serviceName)) {
           service = LocationService.LOCATION_SMART;
         }
       }

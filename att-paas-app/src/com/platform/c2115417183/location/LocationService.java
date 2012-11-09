@@ -5,11 +5,10 @@ import java.util.Map;
 
 public interface LocationService {
 
-  void subscribe(List<String> msisdns) throws Exception;
-  
-  void confirmSubscription(List<String> msisdns) throws Exception;
-  
-  void unsubscribe(List<String> msisdns) throws Exception;
-  
+  void subscribe(String msisdns) throws Exception;
+
+  void unsubscribe(String msisdns) throws Exception;
+
   Map<String, Coordinates> locateMsisdns(List<String> msisdns) throws Exception;
+
 }

@@ -14,119 +14,130 @@ import com.platform.api.Result;
  */
 public class LocAidSetup {
 
-	private String recordId;
+  private String recordId;
 
-	private String registrationServiceUrl;
+  private String registrationServiceUrl;
 
-	private String locationServiceUrl;
+  private String locationServiceUrl;
 
-	private String addressServiceUrl;
+  private String addressServiceUrl;
 
-	private String geofencingServiceUrl;
+  private String geofencingServiceUrl;
 
-	private String login;
+  private String username;
 
-	private String password;
+  private String password;
 
-	private String classId;
-	
-	public static LocAidSetup getInstance() throws Exception {
-	    Result searchResult = Functions.searchRecords("LocAid_Setup", "*", "");
-	    // "record_id, registration_service_url, location_service_url, address_service_url, geofencing_service_url, login, password, class_id", "");
+  private String classId;
+  
+  private String technology;
 
-	    int resultCode = searchResult.getCode();
-	    if (resultCode < 0) {
-	      String msg = "Configuration information for LocAid could not be retrieved";
-	      Logger.error(msg + ":(" + resultCode + ")" + searchResult.getMessage(), LocAidManager.class);
-	      throw new Exception(msg + ". See log for more details.");
-	    } else if (resultCode == 0) {
-	      // No records found.
-	      String msg = "Please configure account in the LocAid Setup object first";
-	      Logger.error(msg + ":(" + resultCode + ")" + searchResult.getMessage(), LocAidManager.class);
-	      throw new Exception(msg);
-	    }
+  public static LocAidSetup getInstance() throws Exception {
+    Result searchResult = Functions.searchRecords("LocAid_Setup", "*", "");
+    // "record_id, registration_service_url, location_service_url, address_service_url, geofencing_service_url, username, password, class_id",
+    // "");
 
-	    // Records retrieved successfully
-	    LocAidSetup setup = new LocAidSetup();
-	    ParametersIterator iterator = searchResult.getIterator();
+    int resultCode = searchResult.getCode();
+    if (resultCode < 0) {
+      String msg = "Configuration information for LocAid could not be retrieved";
+      Logger.error(msg + ":(" + resultCode + ")" + searchResult.getMessage(), LocAidSetup.class);
+      throw new Exception(msg + ". See log for more details.");
+    } else if (resultCode == 0) {
+      // No records found.
+      String msg = "Please configure account in the LocAid Setup object first";
+      Logger.error(msg + ":(" + resultCode + ")" + searchResult.getMessage(), LocAidSetup.class);
+      throw new Exception(msg);
+    }
 
-	    while (iterator.hasNext()) {
-	      Parameters p = iterator.next();
-	      setup.setRecordId(p.get("record_id"));
-	      setup.setRegistrationServiceUrl(p.get("registration_service_url"));
-	      setup.setLocationServiceUrl(p.get("location_service_url"));
-	      setup.setAddressServiceUrl(p.get("address_service_url"));
-	      setup.setGeofencingServiceUrl(p.get("geofencing_service_url"));
-	      setup.setLogin(p.get("login"));
-	      setup.setPassword(p.get("password"));
-	      setup.setClassId(p.get("class_id"));
-	    }
+    // Records retrieved successfully
+    LocAidSetup setup = new LocAidSetup();
+    ParametersIterator iterator = searchResult.getIterator();
 
-	    return setup;
-	  }
+    while (iterator.hasNext()) {
+      Parameters p = iterator.next();
+      setup.setRecordId(p.get("record_id"));
+      setup.setRegistrationServiceUrl(p.get("registration_service_url"));
+      setup.setLocationServiceUrl(p.get("location_service_url"));
+      setup.setAddressServiceUrl(p.get("address_service_url"));
+      setup.setGeofencingServiceUrl(p.get("geofencing_service_url"));
+      setup.setUsername(p.get("username"));
+      setup.setPassword(p.get("password"));
+      setup.setClassId(p.get("class_id"));
+      setup.setTechnology(p.get("technology"));
+    }
 
-	public String getRecordId() {
-		return recordId;
-	}
+    return setup;
+  }
 
-	public void setRecordId(String recordId) {
-		this.recordId = recordId;
-	}
+  public String getRecordId() {
+    return recordId;
+  }
 
-	public String getRegistrationServiceUrl() {
-		return registrationServiceUrl;
-	}
+  public void setRecordId(String recordId) {
+    this.recordId = recordId;
+  }
 
-	public void setRegistrationServiceUrl(String registrationServiceUrl) {
-		this.registrationServiceUrl = registrationServiceUrl;
-	}
+  public String getRegistrationServiceUrl() {
+    return registrationServiceUrl;
+  }
 
-	public String getLocationServiceUrl() {
-		return locationServiceUrl;
-	}
+  public void setRegistrationServiceUrl(String registrationServiceUrl) {
+    this.registrationServiceUrl = registrationServiceUrl;
+  }
 
-	public void setLocationServiceUrl(String locationServiceUrl) {
-		this.locationServiceUrl = locationServiceUrl;
-	}
+  public String getLocationServiceUrl() {
+    return locationServiceUrl;
+  }
 
-	public String getAddressServiceUrl() {
-		return addressServiceUrl;
-	}
+  public void setLocationServiceUrl(String locationServiceUrl) {
+    this.locationServiceUrl = locationServiceUrl;
+  }
 
-	public void setAddressServiceUrl(String addressServiceUrl) {
-		this.addressServiceUrl = addressServiceUrl;
-	}
+  public String getAddressServiceUrl() {
+    return addressServiceUrl;
+  }
 
-	public String getGeofencingServiceUrl() {
-		return geofencingServiceUrl;
-	}
+  public void setAddressServiceUrl(String addressServiceUrl) {
+    this.addressServiceUrl = addressServiceUrl;
+  }
 
-	public void setGeofencingServiceUrl(String geofencingServiceUrl) {
-		this.geofencingServiceUrl = geofencingServiceUrl;
-	}
+  public String getGeofencingServiceUrl() {
+    return geofencingServiceUrl;
+  }
 
-	public String getLogin() {
-		return login;
-	}
+  public void setGeofencingServiceUrl(String geofencingServiceUrl) {
+    this.geofencingServiceUrl = geofencingServiceUrl;
+  }
 
-	public void setLogin(String login) {
-		this.login = login;
-	}
+  public String getUsername() {
+    return username;
+  }
 
-	public String getPassword() {
-		return password;
-	}
+  public void setUsername(String username) {
+    this.username = username;
+  }
 
-	public void setPassword(String password) {
-		this.password = password;
-	}
+  public String getPassword() {
+    return password;
+  }
 
-	public String getClassId() {
-		return classId;
-	}
+  public void setPassword(String password) {
+    this.password = password;
+  }
 
-	public void setClassId(String classId) {
-		this.classId = classId;
-	}
+  public String getClassId() {
+    return classId;
+  }
 
+  public void setClassId(String classId) {
+    this.classId = classId;
+  }
+
+  public String getTechnology() {
+    return technology;
+  }
+
+  public void setTechnology(String technology) {
+    this.technology = technology;
+  }
 }

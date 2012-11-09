@@ -40,11 +40,11 @@ public class AlertsDataPolicy {
         engineersService.assignEngineer(msisdn, alertId);
         List<String> selectedEngineer = engineersService.searchEngineers("msisdn=" + msisdn, "first_name");
         
-        Logger.info("Selected enginner: " + selectedEngineer.get(0), AlertsDataPolicy.class);
+        Logger.info("Selected engineer: " + selectedEngineer.get(0), AlertsDataPolicy.class);
         
-        gsmsManager.sendSms(msisdn, deviceId, Double.valueOf(lat), Double.valueOf(lng));
+        gsmsManager.sendSms(msisdn, deviceId, lat, lng);
       } else {
-        Logger.error("Enginner wasn't selected", AlertsDataPolicy.class);
+        Logger.error("Engineer wasn't selected", AlertsDataPolicy.class);
       }
       
     } catch (Exception e) {

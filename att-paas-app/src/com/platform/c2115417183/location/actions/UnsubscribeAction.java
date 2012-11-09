@@ -7,14 +7,14 @@ import com.platform.c2115417183.location.LocationControllerParameters;
 import com.platform.c2115417183.location.LocationService;
 
 public class UnsubscribeAction extends LocationControllerAction {
-  
+
   @Override
   public ControllerResponse execute(LocationService locationService, LocationControllerParameters params) throws Exception {
     Logger.info("Unsubscribe Action", UnsubscribeAction.class);
-    
-    locationService.unsubscribe(params.getAllMSISDNs());
-    
-    return successMessage("Subscriptions were canceled", "For numbers: " + params.getAllMSISDNs());
+
+    locationService.unsubscribe(params.getMSISDN());
+
+    return successMessage("Subscriptions were canceled", "For number: " + params.getMSISDN());
   }
 
 }
