@@ -94,6 +94,7 @@ Once installed, the AT&T PaaS has a number of objects which must be setup.
 
 #### GSMS Setup
 As the name suggests, this refers to the AT&T Global Smart Messaging Suite configuration. The user specific details required here are
+
 * Username
 * Password
 
@@ -101,6 +102,7 @@ As listed above, these credentials can be obtained by registering at http://pte.
 
 #### LocAid Setup
 This object contains the setup for the Location service Locaid. The user specific details required are
+
 * Class ID
 * Login
 * Password
@@ -109,6 +111,7 @@ As listed above, these credentials can be obtained by registering at http://pte.
 
 #### LocationSmart Setup
 This object contains the setup for the LocationSmart Location service. The user specific details required are
+
 * Login
 * Password
 
@@ -118,6 +121,21 @@ As listed above, these credentials can be obtained by registering at http://pte.
 This object specifies which Location Service should be used. The platform is build, so either LocAid or LocationSmart sevices can be used for Location Services. 
 To select, just chose either LocAid or LocationSmart from the the drop down box.
 **NOTE** This must be done at system setup time. To change after this time, all engineer location subscriptions must first be cancelled, then Location Service can be changed.
+
+###Engineers Setup
+Before testing you should add test engineers to the system. You can do this, by opening Engineers view and clicking on **New Record** button. Every engineer in the system should be subscribed to one of Location Services and to GSMS. You can manage those subscriptions using buttons available in engineer's details view. In order to subscribe an engineer to all external services you should follow those steps:
+
+* Click **Subscribe to GSMS** button,
+* Engineer gets an invitation to GSMS that should be confirmed by sending a response with a single word: in
+* Once the engineer confirms the subscription, he will be able to receiving messages from GSMS
+* You can test the GSMS subscription using **Send invitation SMS** button
+
+Now you can subscribe the engineer to one of location services.
+
+* Click **Subscribe to LIS** button
+* Engineer gets an invitation to LIS that should be confirmed by sending appropriate response(all the details you can find in invitation SMS)
+* Once the engineer confirms the subscription, you will be able to get information about its location
+* Now you can test the LIS subscription using **Get location** button
 
 ## Testing
 You can test integration of both systems using Assets simulator which should be a part of a test account in Axeda. 
