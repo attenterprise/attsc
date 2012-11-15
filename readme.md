@@ -47,13 +47,19 @@ First we need to register on the platforms listed above, the registration proces
 
 1. Login using your credentials
 
-#### Model and assets
-At the beginning you should create a device model and some test assets
+#### Model
+At the beginning you should create a Device Model
 
-1. Click on the **Configuration** link on the right side, then choose **New** -> **Model**
-1. Create model (named ex. **ATTSC_Model**, add some **Model number**), click **Next**
+1. Click on the **Configuration Tab** link on the right side, then choose **New** -> **Model**
+1. Create model. The Model name and number can be any text and number which describes your model best. Click **Next**
 1. Add Data Item named **isDamaged**, type **Digital**, visible. Finish
-	
+
+#### Assets 
+1. In the **Configuration Tab**, select **New** -> **Asset**
+1. Create Asset. The Asset name, serial number can be any text or number which best describes your asset. The Model number should be the model created in Step 2 above. Click **Next**
+1. Select Organization and Location. Click **Next**
+1. Select Asset Group. Click ** Finish**
+
 #### Custom objects
 In the second step you should create custom objects that will be responsible for integration Axeda with Long Jump. 
 
@@ -122,6 +128,10 @@ This object specifies which Location Service should be used. The platform is bui
 To select, just chose either LocAid or LocationSmart from the the drop down box.
 **NOTE** This must be done at system setup time. To change after this time, all engineer location subscriptions must first be cancelled, then Location Service can be changed.
 
+##### LocationSmart Specific Setup
+For the LocationSmart service, registration of MSISDNs and IP address which you will be using may be required on the LocationSmart platform. This will depend on the LocationSmart subscription you have. 
+More information on this can be found in the LocationSmart documents, available for download from the PTE site. 
+
 ###Engineers Setup
 Before testing you should add test engineers to the system. You can do this, by opening Engineers view and clicking on **New Record** button. Every engineer in the system should be subscribed to one of Location Services and to GSMS. You can manage those subscriptions using buttons available in engineer's details view. In order to subscribe an engineer to all external services you should follow those steps:
 
@@ -141,20 +151,20 @@ Now you can subscribe the engineer to one of location services.
 You can test integration of both systems using Assets simulator which should be a part of a test account in Axeda. 
 You should be able to test two types of events:
 
-* reporing alerts by broken device
-* closing alerts by fixed device
+* Reporing alerts by broken device
+* Closing alerts by fixed device
 
 ### Reporting alerts
-1. Open Simulator: Go to [http://dev6.axeda.com/apps/AssetSimulator/AssetSimulator.html](http://dev6.axeda.com/apps/AssetSimulator/AssetSimulator.html)
+1. Open Simulator: Go to [https://att-sandbox.axeda.com/apps/AssetSimulator/DeviceSimulatorWeb.html](https://att-sandbox.axeda.com/apps/AssetSimulator/DeviceSimulatorWeb.html)
 1. Enter your credentials
-1. Choose your Model and some asset
+1. Choose your Model and asset
 1. Click on the tab **Location**, then locate and send
 1. Click on the tab **Alarm**
 1. Type the name and click on **Send**
 1. Expression Rule should fire and it should add a record in **Alerts** object in AT&T PAAS
 
 ### Closing alerts
-1. Open Platform: Go to [http://dev6.axeda.com](http://dev6.axeda.com)
+1. Open Platform: Go to [https://att-sandbox.axeda.com/](https://att-sandbox.axeda.com/)
 1. Enter your credentials
 1. Expand **Recent Assets** from the menu and choose the device for which you reported an alert
 1. Find the alert in device's details and close it
