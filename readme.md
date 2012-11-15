@@ -54,7 +54,9 @@ At the beginning you should create a Device Model
 1. Create model. The Model name and number can be any text and number which describes your model best. Click **Next**
 1. Add Data Item named **isDamaged**, type **Digital**, visible. Finish
 
-#### Assets 
+#### Assets
+We now need to create an asset, on which we raise an alarm. There can be multiple assets, the steps below list how to add one asset. 
+
 1. In the **Configuration Tab**, select **New** -> **Asset**
 1. Create Asset. The Asset name, serial number can be any text or number which best describes your asset. The Model number should be the model created in Step 2 above. Click **Next**
 1. Select Organization and Location. Click **Next**
@@ -92,7 +94,7 @@ When test assets are ready and you have objects that interacts with Long Jump yo
 1. And click Save
 
 ## Setup
-###AT&T M2M powered by Axeda
+###AT&T M2M Platform powered by Axeda
 The configuration for AT&T M2M powered by Axeda is listed in steps 3 and 8 in the *Custom Object* setup above. This is the entry of the AT&T PaaS credentials into the two groovy scripts. 
 
 ###AT&T PaaS
@@ -110,21 +112,23 @@ As listed above, these credentials can be obtained by registering at http://pte.
 This object contains the setup for the Location service Locaid. The user specific details required are
 
 * Class ID
-* Login
+* Username
 * Password
+* Accuracy
 
 As listed above, these credentials can be obtained by registering at http://pte.att.com/lis
 
 #### LocationSmart Setup
 This object contains the setup for the LocationSmart Location service. The user specific details required are
 
-* Login
+* Username
 * Password
+* Accuracy
 
 As listed above, these credentials can be obtained by registering at http://pte.att.com/lis
 
 #### Location Service Setup
-This object specifies which Location Service should be used. The platform is build, so either LocAid or LocationSmart sevices can be used for Location Services. 
+This object specifies which Location Service should be used. The application is designed to allow either LocAid or LocationSmart sevices can be used for Location Services. 
 To select, just chose either LocAid or LocationSmart from the the drop down box.
 **NOTE** This must be done at system setup time. To change after this time, all engineer location subscriptions must first be cancelled, then Location Service can be changed.
 
@@ -148,11 +152,11 @@ Now you can subscribe the engineer to one of location services.
 * Now you can test the LIS subscription using **Get location** button
 
 ## Testing
-You can test integration of both systems using Assets simulator which should be a part of a test account in Axeda. 
+You can test integration of both systems using an Asset simulator which should be a part of AT&T M2M Platform powered by Axeda. 
 You should be able to test two types of events:
 
 * Reporing alerts by broken device
-* Closing alerts by fixed device
+* Closing alerts
 
 ### Reporting alerts
 1. Open Simulator: Go to [https://att-sandbox.axeda.com/apps/AssetSimulator/DeviceSimulatorWeb.html](https://att-sandbox.axeda.com/apps/AssetSimulator/DeviceSimulatorWeb.html)
