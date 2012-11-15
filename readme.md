@@ -4,7 +4,7 @@ Leverage AT&T platforms to deliver your services.
 ## Project Description
 This project showcases the possibilities using AT&T's services and platforms. A brief description of the platforms and services used by this project are as follows
 
-* **AT&T M2M powered by Axeda** - An M2M cloud service
+* **AT&T M2M Platform powered by Axeda** - An M2M cloud service
 * **AT&T Platform as a Service (PaaS)** - A complete development environment to build and launch custom applications quickly
 * **LocationSmart & Locaid** - Location services
 * **AT&T Global Smart Messaging Suite (GSMS)** - Web-based messaging service
@@ -12,9 +12,9 @@ This project showcases the possibilities using AT&T's services and platforms. A 
 To best highlight the possibilities and capabilities of these services, the following scenario was defined :
 
 1. An M2M device provisioned on the AT&T network and having basic GSM & GPRS/EDGE connectivity. 
-1. The device alarms a failure, and notifies the AT&T M2M Platform. 
+1. The device alarms a failure, and notifies the AT&T M2M Platform powered by Axeda. 
 1. The Monitoring Application is notified of the failure and initiates an automated repair procedure
-1. Remote Diagnostics revealed that an on-site visit is necessary. AT&T M2M platform can resolve the address of the M2M device by looking it up in the installed equipment database
+1. Diagnostics reveal that an on-site visit is necessary. AT&T M2M platform powered by Axeda can resolve the address of the M2M device by looking it up in the installed equipment database
 1. The Application, then determines the closest repair engineer based on the location of the device. The AMS Cross-Carrier location service will be used to locate the engineers
 1. The device of engineer ‘B’ is found to be closest to the faulty machine. A Work Order is created and engineer is notified
 
@@ -24,7 +24,7 @@ This project showcases how this is achieved using AT&T's platforms and services.
 ## Registration
 First we need to register on the platforms listed above, the registration process is easy and straight forward.
 
-* AT&T M2M powered by Axeda, Sandbox environment - https://att-sandbox.axeda.com
+* AT&T M2M platform powered by Axeda, Sandbox environment - https://att-sandbox.axeda.com
 * AT&T PaaS - https://paas1.attplatform.com/
 * LocAid - http://pte.att.com/lis
 * LocationSmart - http://pte.att.com/lis
@@ -43,7 +43,7 @@ First we need to register on the platforms listed above, the registration proces
 1. On the next screen please select **System Administrator** role and then click on **Install** button
 1. When the platform finish processing your test application will be ready to use it
 
-### AT&T M2M powered by Axeda Configuration
+### AT&T M2M Platform powered by Axeda Configuration
 
 1. Login using your credentials
 
