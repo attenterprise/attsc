@@ -13,12 +13,14 @@ public class LocationSmartSetup {
   private final String username;
   private final String password;
   private final String subscriptionGroup;
+  private final LocationSmartAccuracy accuracy;
 
-  public LocationSmartSetup(String serviceUrl, String username, String password, String subscriptionGroup) {
+  public LocationSmartSetup(String serviceUrl, String username, String password, String subscriptionGroup, LocationSmartAccuracy accuracy) {
     this.serviceUrl = serviceUrl;
     this.username = username;
     this.password = password;
     this.subscriptionGroup = subscriptionGroup;
+    this.accuracy = accuracy;
   }
 
   public String getServiceUrl() {
@@ -36,12 +38,17 @@ public class LocationSmartSetup {
   public String getSubscriptionGroup() {
     return subscriptionGroup;
   }
+  
+  public LocationSmartAccuracy getAccuracy() {
+    return accuracy;
+  }
 
   public static LocationSmartSetup getInstance() throws Exception {
     String serviceUrl = UNKNOWN;
     String username = UNKNOWN;
     String password = UNKNOWN;
     String subscriptionGroup = UNKNOWN;
+    LocationSmartAccuracy accuracy = LocationSmartAccuracy.BestEffort;
 
     Result searchResult = Functions.searchRecords("LocationSmart_Setup", "*", "");
     ParametersIterator resultIterator = searchResult.getIterator();
@@ -53,8 +60,9 @@ public class LocationSmartSetup {
       username = parameters.get("username");
       password = parameters.get("password");
       subscriptionGroup = parameters.get("subscription_group");
+      accuracy = LocationSmartAccuracy.valueOf(parameters.get("accuracy"));
     }
 
-    return new LocationSmartSetup(serviceUrl, username, password, subscriptionGroup);
+    return new LocationSmartSetup(serviceUrl, username, password, subscriptionGroup, accuracy);
   }
 }

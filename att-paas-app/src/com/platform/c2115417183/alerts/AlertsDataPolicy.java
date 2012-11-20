@@ -4,8 +4,10 @@ import java.util.List;
 
 import com.platform.api.Logger;
 import com.platform.api.Parameters;
+import com.platform.c2115417183.engineers.EngineersDao;
 import com.platform.c2115417183.engineers.EngineersService;
 import com.platform.c2115417183.gsms.GSMSManager;
+import com.platform.c2115417183.location.LocationServiceSetup;
 
 /**
  * Class that implements data policies used by Alerts object.
@@ -16,6 +18,7 @@ import com.platform.c2115417183.gsms.GSMSManager;
 public class AlertsDataPolicy {
 
   private EngineersService engineersService = new EngineersService();
+  private EngineersDao engineersDao = new EngineersDao();
   private GSMSManager gsmsManager = new GSMSManager();
 
   /**
@@ -34,11 +37,13 @@ public class AlertsDataPolicy {
       String message = String.format("New alert[device: %s]: %s", deviceId, details);
       Logger.info(message, this.getClass());
       
-      String msisdn = engineersService.locateClosestEngineer(lat, lng);
+      LocationServiceSetup lisSetup = LocationServiceSetup.getInstance();
+      
+      String msisdn = engineersService.locateClosestEngineer(lisSetup, lat, lng);
       
       if (msisdn != null) {
-        engineersService.assignEngineer(msisdn, alertId);
-        List<String> selectedEngineer = engineersService.searchEngineers("msisdn=" + msisdn, "first_name");
+        engineersDao.assignEngineer(msisdn, alertId);
+        List<String> selectedEngineer = engineersDao.searchEngineers("msisdn=" + msisdn, "first_name");
         
         Logger.info("Selected engineer: " + selectedEngineer.get(0), AlertsDataPolicy.class);
         

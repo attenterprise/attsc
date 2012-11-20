@@ -1,13 +1,13 @@
 package com.platform.c2115417183.location;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import com.platform.api.Controller;
 import com.platform.api.ControllerResponse;
 import com.platform.c2115417183.location.actions.GetLocationAction;
 import com.platform.c2115417183.location.actions.SubscribeAction;
 import com.platform.c2115417183.location.actions.UnsubscribeAction;
+import com.platform.c2115417183.pages.DefaultResponseFactory;
 
 public class LocationController implements Controller {
 
@@ -18,17 +18,19 @@ public class LocationController implements Controller {
   private static final String GET_LOCATION_ACTION = "get_location";
   private static final String SUBSCRIBE_ACTION = "subscribe";
   private static final String UNSUBSCRIBE_ACTION = "unsubscribe";
+  
+  private LocationServiceFactory lisFactory = new LocationServiceFactory();
 
   @SuppressWarnings("rawtypes")
   public ControllerResponse execute(HashMap requestParams) throws Exception {
     final LocationServiceSetup setup = LocationServiceSetup.getInstance();
 
     if (setup.isCorrectlyConfigured()) {
-      final LocationService locationService = LocationServiceFactory.getNewLocationService(setup);
+      final LocationService locationService = lisFactory.getNewLocationService(setup);
 
       return executeAction(locationService, requestParams);
     } else {
-      return reportError("Location Service hasn't been selected in 'Location Service Setup'");
+      return DefaultResponseFactory.reportError("Location Service hasn't been selected in 'Location Service Setup'");
     }
   }
 
@@ -45,20 +47,9 @@ public class LocationController implements Controller {
     } else if (SUBSCRIBE_ACTION.equals(actionName)) {
       action = new SubscribeAction();
     } else {
-      return reportError("Not supported action: " + actionName);
+      return DefaultResponseFactory.reportError("Not supported action: " + actionName);
     }
 
     return action.execute(locationService, params);
-  }
-
-  private ControllerResponse reportError(String errorMessage) {
-    Map<String, String> params = new HashMap<String, String>();
-    params.put("error_message", errorMessage);
-
-    ControllerResponse errorResponse = new ControllerResponse();
-    errorResponse.setData(params);
-    errorResponse.setTargetPage("locationControllerStatus.jsp");
-
-    return errorResponse;
   }
 }

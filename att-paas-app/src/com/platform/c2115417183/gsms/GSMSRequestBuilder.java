@@ -1,7 +1,5 @@
 package com.platform.c2115417183.gsms;
 
-import java.net.URLEncoder;
-
 import sun.misc.BASE64Encoder;
 
 import com.platform.api.CONSTANTS;
@@ -20,7 +18,7 @@ public class GSMSRequestBuilder {
 
   public HttpConnection createContactRequest(String firstName, String lastName, String mobile) throws GSMSException {
     try {
-      HttpConnection req = new HttpConnection(CONSTANTS.HTTP.METHOD.POST, urlBuilder.createContactUrl());
+      HttpConnection req = createNewHttpConnection(urlBuilder.createContactUrl());
 
       req.addParameter("firstName", firstName);
       Logger.info("firstName: " + firstName, GSMSRequestBuilder.class);
@@ -42,7 +40,7 @@ public class GSMSRequestBuilder {
   public HttpConnection createAddContactToGroupRequest(String groupId, String contactId) throws GSMSException {
     HttpConnection req;
     try {
-      req = new HttpConnection(CONSTANTS.HTTP.METHOD.POST, urlBuilder.createAddContactToGroupUrl());
+      req = createNewHttpConnection(urlBuilder.createAddContactToGroupUrl());
 
       req.addParameter("groupId", groupId);
       Logger.info("groupId: " + groupId, GSMSRequestBuilder.class);
@@ -60,26 +58,29 @@ public class GSMSRequestBuilder {
       Logger.info("mobileStatus: 60", GSMSRequestBuilder.class);
 
       addAuthenticationHeader(req);
-      
+
       return req;
     } catch (Exception e) {
       throw new GSMSException("GSMS Request cannot be prepared.", e);
     }
   }
-
-  @SuppressWarnings("deprecation")
+  
   public HttpConnection createSendSmsRequest(String destination, String text) throws Exception {
-    HttpConnection req = new HttpConnection(CONSTANTS.HTTP.METHOD.POST, urlBuilder.createSendSmsUrl());
+    HttpConnection req = createNewHttpConnection(urlBuilder.createSendSmsUrl());
 
     req.addParameter("destination", destination);
     Logger.info("destination: " + destination, GSMSRequestBuilder.class);
 
-    req.addParameter("text", URLEncoder.encode(text));
+    req.addParameter("text", text);
     Logger.info("text: " + text, GSMSRequestBuilder.class);
 
     addAuthenticationHeader(req);
 
     return req;
+  }
+
+  protected HttpConnection createNewHttpConnection(String url) throws Exception {
+    return new HttpConnection(CONSTANTS.HTTP.METHOD.POST, url);
   }
 
   private void addAuthenticationHeader(HttpConnection req) throws GSMSException {

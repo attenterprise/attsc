@@ -11,6 +11,8 @@ public class LocationSmartURLBuilder {
   public String createLocationUrl(String msisdn) throws Exception {
     String subscriptionGroup = setup.getSubscriptionGroup();
     String url = setup.getServiceUrl() + "/locreq.xml/?privacyConsent=False&tn=" + msisdn.substring(1) + "&subscriptionGroup=" + subscriptionGroup;
+    url += "&accuracyReq=" + setup.getAccuracy().name();
+    
     return url;
   }
 

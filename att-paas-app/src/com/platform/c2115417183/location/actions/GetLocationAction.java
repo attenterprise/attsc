@@ -8,21 +8,26 @@ import com.platform.c2115417183.location.Coordinates;
 import com.platform.c2115417183.location.LocationControllerAction;
 import com.platform.c2115417183.location.LocationControllerParameters;
 import com.platform.c2115417183.location.LocationService;
+import com.platform.c2115417183.pages.DefaultResponseFactory;
 
-public class GetLocationAction extends LocationControllerAction {
+public class GetLocationAction implements LocationControllerAction {
 
   private static final String ERROR = "Unable to locate engineer";
 
   @Override
-  public ControllerResponse execute(LocationService locationService, LocationControllerParameters params) throws Exception {
+  public ControllerResponse execute(LocationService locationService, LocationControllerParameters params) {
     Logger.info("Get Location Action", GetLocationAction.class);
 
-    Map<String, Coordinates> locations = locationService.locateMsisdns(params.getAllMSISDNs());
-    Coordinates location = locations.get(params.getAllMSISDNs().get(0));
+    try {
+      Map<String, Coordinates> locations = locationService.locateMsisdns(params.getAllMSISDNs());
+      Coordinates location = locations.get(params.getAllMSISDNs().get(0));
 
-    String details = location != null ? String.format("Latitude: %f Longitude: %f", location.getLatitude(), location.getLongitude()) : ERROR;
+      String details = location != null ? String.format("Latitude: %f Longitude: %f", location.getLatitude(), location.getLongitude()) : ERROR;
 
-    return successMessage("Engineers location", details);
+      return DefaultResponseFactory.successMessage("Engineers location", details);
+    } catch (Exception e) {
+      return DefaultResponseFactory.reportError("Getting information about the location wasn't possible");
+    }
   }
 
 }

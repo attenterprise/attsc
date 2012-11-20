@@ -18,18 +18,25 @@ import com.platform.api.Functions;
 import com.platform.api.HttpConnection;
 import com.platform.api.Logger;
 import com.platform.api.Parameters;
-import com.platform.c2115417183.engineers.EngineersService;
+import com.platform.c2115417183.engineers.EngineersDao;
 import com.platform.c2115417183.location.Coordinates;
 import com.platform.c2115417183.location.LocationService;
 
 public class LocationSmartService implements LocationService {
 
+  private static final String ERROR_CODE = "errorCode";
+  private static final String ERROR_MSG = "errorMsg";
+  private static final String LATITUDE = "latitude";
+  private static final String LONGITUDE = "longitude";
+
+  private static final String SUBSCRIPTION_EXISTS = "40";
+  private static final String SUCCESS = "0";
+  
   private DocumentBuilder documentBuilder;
 
-  private EngineersService engineersService = new EngineersService();
+  private EngineersDao engineersDao = new EngineersDao();
 
   public LocationSmartService() {
-    super();
     try {
       documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
     } catch (ParserConfigurationException e) {
@@ -67,15 +74,10 @@ public class LocationSmartService implements LocationService {
     String responseString = httpConnection.getResponse();
     Logger.info("Response : " + responseString, LocationSmartService.class);
     Document documentResponse = documentBuilder.parse(new InputSource(new ByteArrayInputStream(responseString.getBytes("utf-8"))));
-    Node node = null;
-    for (int i = 0; i < documentResponse.getFirstChild().getChildNodes().getLength(); i++) {
-      node = documentResponse.getFirstChild().getChildNodes().item(i);
-      if (node.getNodeName().equals("errorCode")) {
-        break;
-      }
-    }
-    if (Integer.valueOf(node.getTextContent()) == 0) {
-      List<String> result = engineersService.searchEngineers("msisdn=" + msisdn, "id");
+    Node errorCode = documentResponse.getElementsByTagName(ERROR_CODE).item(0);
+    
+    if (SUCCESS.equals(errorCode.getTextContent()) || SUBSCRIPTION_EXISTS.equals(errorCode.getTextContent())) {
+      List<String> result = engineersDao.searchEngineers("msisdn=" + msisdn, "id");
       if (result.size() == 1) {
         String id = result.get(0);
         Parameters params = new Parameters();
@@ -85,13 +87,8 @@ public class LocationSmartService implements LocationService {
         Logger.error("Cannot update engineer's status.", LocationSmartService.class);
       }
     } else {
-      Node errorMsgNode = null;
-      for (int i = 0; i < documentResponse.getFirstChild().getChildNodes().getLength(); i++) {
-        errorMsgNode = documentResponse.getFirstChild().getChildNodes().item(i);
-        if (errorMsgNode.getNodeName().equals("errorMsg")) {
-          break;
-        }
-      }
+      Node errorMsgNode = documentResponse.getElementsByTagName(ERROR_MSG).item(0);
+      
       Logger.error(errorMsgNode.getTextContent(), LocationSmartService.class);
       throw new Exception(errorMsgNode.getTextContent());
     }
@@ -101,6 +98,7 @@ public class LocationSmartService implements LocationService {
   public Map<String, Coordinates> locateMsisdns(List<String> msisdns) throws Exception {
     LocationSmartURLBuilder urlBuilder = new LocationSmartURLBuilder(LocationSmartSetup.getInstance());
     Map<String, Coordinates> resultMap = new HashMap<String, Coordinates>();
+    
     for (String msisdn : msisdns) {
       String url = urlBuilder.createLocationUrl(msisdn);
       HttpConnection httpConnection = new HttpConnection(CONSTANTS.HTTP.METHOD.GET, url);
@@ -108,37 +106,24 @@ public class LocationSmartService implements LocationService {
       String responseString = httpConnection.getResponse();
       Logger.info("Response : " + responseString, LocationSmartService.class);
       Document documentResponse = documentBuilder.parse(new InputSource(new ByteArrayInputStream(responseString.getBytes("utf-8"))));
-      int errorCode = 0;
-      String errorMsg = null;
-      double latitude = 0;
-      double longitude = 0;
-      for (int i = 0; i < documentResponse.getFirstChild().getChildNodes().getLength(); i++) {
-        Node node = documentResponse.getFirstChild().getChildNodes().item(i);
-        if (node.getNodeName().equals("errorCode")) {
-          errorCode = Integer.valueOf(node.getTextContent());
-        }
-        if (node.getNodeName().equals("errorMsg")) {
-          errorMsg = node.getTextContent();
-        }
-        if (node.getNodeName().equals("geoAddress")) {
-          for (int j = 0; j < node.getChildNodes().getLength(); j++) {
-            Node subNode = node.getChildNodes().item(j);
-            if (subNode.getNodeName().equals("latitude") && subNode.getTextContent() != null && !subNode.getTextContent().isEmpty()) {
-              latitude = Double.valueOf(subNode.getTextContent()).doubleValue();
-            }
-            if (subNode.getNodeName().equals("longitude") && subNode.getTextContent() != null && !subNode.getTextContent().isEmpty()) {
-              longitude = Double.valueOf(subNode.getTextContent()).doubleValue();
-            }
-          }
-        }
-      }
+      
+      int errorCode = Integer.valueOf(documentResponse.getElementsByTagName(ERROR_CODE).item(0).getTextContent());
+      String errorMsg = documentResponse.getElementsByTagName(ERROR_MSG).item(0).getTextContent();
+      double latitude = Double.parseDouble(documentResponse.getElementsByTagName(LATITUDE).item(0).getTextContent());
+      double longitude = Double.parseDouble(documentResponse.getElementsByTagName(LONGITUDE).item(0).getTextContent());
+      
       if (errorCode == 0) { // ok
         resultMap.put(msisdn, new Coordinates(latitude, longitude));
       } else {
         Logger.error("Cannot locate msisdn: " + msisdn + ". Error: " + errorCode + ". " + errorMsg, LocationSmartService.class);
       }
     }
+    
     return resultMap;
+  }
+  
+  protected HttpConnection createHttpConnection(String url) throws Exception {
+    return new HttpConnection(CONSTANTS.HTTP.METHOD.GET, url);
   }
 
 }

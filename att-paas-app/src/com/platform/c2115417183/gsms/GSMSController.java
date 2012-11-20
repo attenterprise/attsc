@@ -82,7 +82,7 @@ public class GSMSController implements Controller {
         String msisdn = searchParams.get("msisdn");
         
         GSMSManager gsmsManager = new GSMSManager();
-        gsmsManager.sendSms(msisdn, String.format("Hi %s! Welcome to AT&T Showcase Applicaiton.", firstName));
+        gsmsManager.sendSms(msisdn, String.format("Hi %s! Welcome to AT&T Showcase Application.", firstName));
         
         return reportSuccess("Invitation SMS was sent to: " + searchParams.get("msisdn"));
       }
