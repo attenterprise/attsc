@@ -1,8 +1,8 @@
 project.baseuri=https://paas1.attplatform.com
-project.password=D71E6284F670F7935778457C0CDA3DF725BC1E8D6E766644CE40AEDD9203FFFD68442781417AE2D3AD7ACE7C98E6D4C6
+project.password=PASSWORD
 project.packagePrefix=com.platform.c2125126633
 project.page=pages
-project.lib=/Users/artur/Workspaces/attsc/att-paas-app/lib
+project.lib=lib
 project.src=src
 project.username=1347644721
 resource.src.com.platform.c2115417183.gsms.GSMSResponseParser.java.localModifiedTimestamp=191
