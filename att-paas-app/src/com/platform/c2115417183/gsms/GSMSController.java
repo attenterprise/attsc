@@ -51,9 +51,9 @@ public class GSMSController implements Controller {
       
       return reportError("Invalid engineer's ID: " + id);
     } catch (NoSuchElementException e) {
-      return reportError("Cannot subscribe enginner: " + e.getMessage());
+      return reportError("Cannot subscribe engineer: " + e.getMessage());
     } catch (Exception e) {
-      return reportError("Cannot subscribe enginner: " + e.getMessage());
+      return reportError("Cannot subscribe engineer: " + e.getMessage());
     }
   }
   

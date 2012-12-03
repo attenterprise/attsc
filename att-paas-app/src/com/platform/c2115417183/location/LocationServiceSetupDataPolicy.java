@@ -9,7 +9,7 @@ import com.platform.api.Result;
 public class LocationServiceSetupDataPolicy {
 
   public void checkIfCanChangeLocationService(Parameters parameters) throws Exception {
-    Logger.info("Checking if any enginner is subscribed to current location service", LocationServiceSetupDataPolicy.class);
+    Logger.info("Checking if any engineer is subscribed to current location service", LocationServiceSetupDataPolicy.class);
 
     String engineersNames = "";
     Result allEngineers = Functions.searchRecords("Engineers", "first_name,last_name,lis_subscription_status", "");
@@ -31,7 +31,7 @@ public class LocationServiceSetupDataPolicy {
     if (engineersNames.length() > 0) {
       Logger.info("Engineers are subscribed: " + engineersNames, LocationServiceSetupDataPolicy.class);
 
-      throw new Exception("Following enginners are subscribed to the current Location Service: " + engineersNames);
+      throw new Exception("Following engineers are subscribed to the current Location Service: " + engineersNames);
     } else {
       Logger.info("Can change location service", LocationServiceSetupDataPolicy.class);
     }
