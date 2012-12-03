@@ -54,7 +54,7 @@ public class EngineersDao {
       params.add("related_to_engineers", engineerId);
       Functions.updateRecord("Alerts", alertId, params);
     } else {
-      Logger.error("Cannot find enginners with msisdn: " + msisdn, EngineersService.class);
+      Logger.error("Cannot find engineers with msisdn: " + msisdn, EngineersService.class);
     }
   }
 
