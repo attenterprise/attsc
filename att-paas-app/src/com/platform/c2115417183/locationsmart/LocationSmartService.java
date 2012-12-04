@@ -109,10 +109,11 @@ public class LocationSmartService implements LocationService {
       
       int errorCode = Integer.valueOf(documentResponse.getElementsByTagName(ERROR_CODE).item(0).getTextContent());
       String errorMsg = documentResponse.getElementsByTagName(ERROR_MSG).item(0).getTextContent();
-      double latitude = Double.parseDouble(documentResponse.getElementsByTagName(LATITUDE).item(0).getTextContent());
-      double longitude = Double.parseDouble(documentResponse.getElementsByTagName(LONGITUDE).item(0).getTextContent());
       
       if (errorCode == 0) { // ok
+        double latitude = Double.parseDouble(documentResponse.getElementsByTagName(LATITUDE).item(0).getTextContent());
+        double longitude = Double.parseDouble(documentResponse.getElementsByTagName(LONGITUDE).item(0).getTextContent());
+        
         resultMap.put(msisdn, new Coordinates(latitude, longitude));
       } else {
         Logger.error("Cannot locate msisdn: " + msisdn + ". Error: " + errorCode + ". " + errorMsg, LocationSmartService.class);
