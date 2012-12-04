@@ -17,16 +17,16 @@ public class GSMSManager {
   private static final String INVALID_MESSAGE_ID = "0";
   private static final Pattern MESSAGE_ID_PATTERN = Pattern.compile("Message-ID:\\s+([0-9]+)");
 
-  public void sendSms(String msisdn, String assetId, String lat, String lng) throws GSMSException {
+  public boolean sendSms(String msisdn, String assetId, String lat, String lng) throws GSMSException {
     final String message = String.format("Asset '%s' (%s, %s) is damaged", assetId, lat, lng);
 
-    sendSms(msisdn, message);
+    return sendSms(msisdn, message);
   }
 
-  public void sendSms(String msisdn, String message) throws GSMSException {
+  public boolean sendSms(String msisdn, String message) throws GSMSException {
     try {
       Logger.info("Sending SMS", GSMSManager.class);
-      
+
       final GSMSSetup setup = GSMSSetup.getInstance();
       final GSMSRequestBuilder requestBuilder = new GSMSRequestBuilder(setup);
 
@@ -40,9 +40,8 @@ public class GSMSManager {
       Logger.info("Send SMS Response: " + gsmsResponse, GSMSManager.class);
 
       final String messageId = getMessageId(gsmsResponse);
-      if (INVALID_MESSAGE_ID.equals(messageId)) {
-        throw new GSMSException("Unable to send SMS");
-      }
+
+      return !INVALID_MESSAGE_ID.equals(messageId);
     } catch (Exception e) {
       Logger.error("GSMS Error: " + e.getMessage(), GSMSManager.class);
 

@@ -6,6 +6,7 @@ import com.platform.api.Logger;
 import com.platform.api.Parameters;
 import com.platform.c2115417183.engineers.EngineersDao;
 import com.platform.c2115417183.engineers.EngineersService;
+import com.platform.c2115417183.engineers.SearchResult;
 import com.platform.c2115417183.gsms.GSMSManager;
 import com.platform.c2115417183.location.LocationServiceSetup;
 
@@ -33,28 +34,42 @@ public class AlertsDataPolicy {
       String alertId = (String) requestParams.getObject("id");
       String deviceId = (String) requestParams.getObject("device_id");
       String details = (String) requestParams.getObject("description");
-      
+
       String message = String.format("New alert[device: %s]: %s", deviceId, details);
       Logger.info(message, this.getClass());
-      
+
       LocationServiceSetup lisSetup = LocationServiceSetup.getInstance();
-      
-      String msisdn = engineersService.locateClosestEngineer(lisSetup, lat, lng);
-      
-      if (msisdn != null) {
-        engineersDao.assignEngineer(msisdn, alertId);
-        List<String> selectedEngineer = engineersDao.searchEngineers("msisdn=" + msisdn, "first_name");
-        
-        Logger.info("Selected engineer: " + selectedEngineer.get(0), AlertsDataPolicy.class);
-        
-        gsmsManager.sendSms(msisdn, deviceId, lat, lng);
-      } else {
-        Logger.error("Engineer wasn't selected", AlertsDataPolicy.class);
+
+      List<SearchResult> results = engineersService.locateClosestEngineer(lisSetup, lat, lng);
+
+      for (SearchResult result : results) {
+        String msisdn = result.getMsisdn();
+
+        if (gsmsManager.sendSms(msisdn, deviceId, lat, lng)) {
+          engineersDao.assignEngineer(msisdn, alertId);
+          List<String> selectedEngineer = engineersDao.searchEngineers("msisdn=" + msisdn, "first_name");
+
+          Logger.info("Selected engineer: " + selectedEngineer.get(0), AlertsDataPolicy.class);
+          
+          break;
+        } else {
+          Logger.error("Unable to send SMS to: " + msisdn, AlertsDataPolicy.class);
+        }
       }
-      
     } catch (Exception e) {
       Logger.error(e.getMessage(), AlertsDataPolicy.class);
     }
   }
 
+  void setEngineersService(EngineersService engineersService) {
+    this.engineersService = engineersService;
+  }
+
+  void setEngineersDao(EngineersDao engineersDao) {
+    this.engineersDao = engineersDao;
+  }
+
+  void setGsmsManager(GSMSManager gsmsManager) {
+    this.gsmsManager = gsmsManager;
+  }
 }

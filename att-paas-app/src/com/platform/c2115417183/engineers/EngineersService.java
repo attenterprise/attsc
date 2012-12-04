@@ -1,5 +1,7 @@
 package com.platform.c2115417183.engineers;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +17,7 @@ public class EngineersService {
   private EngineersDao engineersDao = new EngineersDao();
   private LocationServiceFactory lisFactory = new LocationServiceFactory();
 
-  public String locateClosestEngineer(LocationServiceSetup setup, String lat, String lng) throws Exception {
+  public List<SearchResult> locateClosestEngineer(LocationServiceSetup setup, String lat, String lng) throws Exception {
     Logger.info("Locating engineers", EngineersService.class);
 
     if (setup.isCorrectlyConfigured()) {
@@ -23,11 +25,12 @@ public class EngineersService {
     } else {
       Logger.error("Default Location Service hasn't been selected.", EngineersService.class);
 
-      return null;
+      return new ArrayList<SearchResult>();
     }
   }
 
-  private String locateClosesEngineer(LocationServiceSetup setup, String lat, String lng) throws Exception {
+  private List<SearchResult> locateClosesEngineer(LocationServiceSetup setup, String lat, String lng) throws Exception {
+    List<SearchResult> results = new ArrayList<SearchResult>();
     LocationService locationService = lisFactory.getNewLocationService(setup);
 
     double deviceLatitude = Double.valueOf(lat);
@@ -35,23 +38,20 @@ public class EngineersService {
 
     List<String> msisdnList = engineersDao.searchEngineers("lis_subscription_status='SUBSCRIBED' AND gsms_subscription_status='SUBSCRIBED'", "msisdn");
 
-    String msisdn = null;
-    double distance = Double.MAX_VALUE;
     Map<String, Coordinates> searchResult = locationService.locateMsisdns(msisdnList);
 
-    for (String tempMsisdn : searchResult.keySet()) {
-      Coordinates location = searchResult.get(tempMsisdn);
-      double tempDistance = LocationUtils.distanceFrom(deviceLatitude, deviceLongitude, location.getLatitude(), location.getLongitude());
+    for (String msisdn : searchResult.keySet()) {
+      Coordinates location = searchResult.get(msisdn);
+      double distance = LocationUtils.distanceFrom(deviceLatitude, deviceLongitude, location.getLatitude(), location.getLongitude());
 
-      Logger.info(tempMsisdn + " distance: " + tempDistance + " km", EngineersService.class);
+      Logger.info(msisdn + " distance: " + distance + " km", EngineersService.class);
       
-      if (tempDistance < distance) {
-        msisdn = tempMsisdn;
-        distance = tempDistance;
-      }
+      results.add(new SearchResult(msisdn, distance));
     }
+    
+    Collections.sort(results);
 
-    return msisdn;
+    return results;
   }
 
   void setEngineersDao(EngineersDao engineersDao) {
