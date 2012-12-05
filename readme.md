@@ -66,15 +66,15 @@ We now need to create an asset, on which we raise an alarm. There can be multipl
 In the second step you should create custom objects that will be responsible for integration Axeda with Long Jump. 
 
 1. Please select **Add** from the top menu and then **Custom Object**
-1. The name of first object is **ATTAssetIsDamaged** and its type is **Action**
+1. The name of first object is **ATTAssetIsDamaged** and its type is **Alarm Rule**
 1. Source code of this object you can find in **att-axeda-scripts/src/main/groovy/ATTAssetIsDamaged.groovy**
 1. Please change your 'Long Jump' username and password in the script
-1. The object requires two parameters: **serial**, **location** and **description**
+1. The object requires single parameter: **location**
 1. When changes are completed, click **Finish** in order to save it
-1. The second object should be called **ATTAssetIsFixed** and its type should be set to **Action**
+1. The second object should be called **ATTAssetIsFixed** and its type should be set to **Alarm Rule**
 1. Source code of this object is in **att-axeda-scripts/src/main/groovy/ATTAssetIsFixed.groovy**
 1. Change your 'Long Jump' username and password in a script
-1. The object requires single parameter **serial**
+1. The object doesn't require any parameters
 1. Click on **Finish** in order to save object
 
 #### Expression rules
@@ -85,12 +85,12 @@ When test assets are ready and you have objects that interacts with Long Jump yo
 1. Click **Apply to assets** and check previously created Model
 1. Check **Enabled** and **Execute each time rule evaluates to true**
 1. In **If** field put **true**
-1. In **Then** field put **ExecuteCustomObject("ATTAssetIsDamaged", Device.serial, Location.location, name)**
+1. In **Then** field put **ExecuteCustomObject("ATTAssetIsDamaged", Location.location)**
 1. And click Save
 1. The second expression rule should be called **DeviceIsFixed**, it's type should be set to **AlarmStateChange**
 1. It should be applied to the same assets as in first rule,
 1. In **If** field put **state == "CLOSED"**
-1. In **Then** field put **ExecuteCustomObject("ATTAssetIsFixed", Device.serial)**
+1. In **Then** field put **ExecuteCustomObject("ATTAssetIsFixed")**
 1. And click Save
 
 ## Setup

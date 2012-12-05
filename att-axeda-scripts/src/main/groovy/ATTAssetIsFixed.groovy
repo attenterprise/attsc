@@ -8,10 +8,6 @@ RESTClient paasRestClient = new RESTClient("http://paas1.attplatform.com/");
  * Object name: ATTAssetIsFixed
  *
  * Script is responsible for propagating information about fixed device to Long Jump.
- *
- * Parameters:
- *
- * serial - Device's serial number.
  */
 
 // Credentials for AT&T platform
@@ -30,11 +26,11 @@ try {
   // Identifier of current session
   def sessionId = loginResponse.getData().platform.login.sessionId
   
-  // Parameters of broken Asset
-  def serial = parameters.serial
+  // Parameters of Alarm
+  def alarmId = alarm.id
   
   // Find active alert for Asset
-  def filter = "device_id contains '" + serial + "' AND status != 'DONE'";
+  def filter = "external_id equals '" + alarmId + "'";
       
   def searchResponse = paasRestClient.get(path: "/networking/rest/record/Alerts",
     requestContentType: JSON,

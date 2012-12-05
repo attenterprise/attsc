@@ -9,9 +9,7 @@ import static groovyx.net.http.ContentType.*
  * 
  * Parameters:
  * 
- * serial - Device's serial number,
  * location - Device's location,
- * description - Problem's description.
  */
 
 // URL For PaaS connection
@@ -33,8 +31,9 @@ try {
   def sessionId = loginResponse.getData().platform.login.sessionId
 
   // Parameters of broken Asset
-  def serial = parameters.serial
-  def description = parameters.description
+  def serial = alarm.device.serialNumber
+  def description = alarm.name
+  def id = alarm.id
   
   String location = parameters.location;
   def lat = location.split(",")[0]
@@ -46,6 +45,7 @@ try {
     "<latitude>" + lat + "</latitude>" +
     "<longitude>" + lng + "</longitude>" +
     "<description>" + description + "</description>" +
+    "<external_id>" + id + "</external_id>" +
     "<status>NEW</status></record></platform>";
 
   paasRestClient.post(path: "/networking/rest/record/Alerts",
