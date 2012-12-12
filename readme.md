@@ -1,175 +1,181 @@
 # AT&T Showcase
-Leverage AT&T platforms to deliver your services. 
+Leverage AT&T APIs and platforms to mobilize your enterprise and solve your business challenges.
 
 ## Project Description
-This project showcases the possibilities using AT&T's services and platforms. A brief description of the platforms and services used by this project are as follows
 
-* **AT&T M2M Platform powered by Axeda** - An M2M cloud service
-* **AT&T Platform as a Service (PaaS)** - A complete development environment to build and launch custom applications quickly
-* **LocationSmart & Locaid** - Location services
-* **AT&T Global Smart Messaging Suite (GSMS)** - Web-based messaging service
+This project showcases the possibilities of how enterprises can leverage AT&T Platforms and APIs to solve their business challenges and mobilize their workforce. A brief description of the platforms and services used by this project are as follows:
 
-To best highlight the possibilities and capabilities of these services, the following scenario was defined :
+* **AT&T M2M Application Platform Powered by Axeda** - A cloud service for fast M2M application development and deployment.
+* **AT&T Platform as a Service (PaaS)** - A complete development environment to build and launch custom applications quickly.
+* **Location Information Services** – two cross-carrier API offerings: one powered by LocationSmart and another by LocAid.AT&T Global Smart Messaging Suite (GSMS) - enables 2-way SMS and e-mail communication and can reach employees and opted-in consumer subscribers at most wireless carriers globally.
 
-1. An M2M device provisioned on the AT&T network and having basic GSM & GPRS/EDGE connectivity. 
-1. The device alarms a failure, and notifies the AT&T M2M Platform powered by Axeda. 
-1. The Monitoring Application is notified of the failure and initiates an automated repair procedure
-1. Diagnostics reveal that an on-site visit is necessary. AT&T M2M platform powered by Axeda can resolve the address of the M2M device by looking it up in the installed equipment database
-1. The Application, then determines the closest repair engineer based on the location of the device. The AMS Cross-Carrier location service will be used to locate the engineers
-1. The device of engineer ‘B’ is found to be closest to the faulty machine. A Work Order is created and engineer is notified
+To best highlight the possibilities and capabilities of these services, the following scenario was created:
+
+1. An M2M device provisioned on the AT&T network and having basic GSM & GPRS/EDGE connectivity.
+2. The device alarms a failure, and notifies the AT&T M2M Application Platform Powered by Axeda.
+3. The Monitoring Application is notified of the failure and initiates an automated repair procedure.
+4. Diagnostics reveal that an on-site visit is necessary. AT&T M2M application platform can resolve the address of the M2M device by looking it up in the installed equipment database.
+5. The Application, then determines the closest repair engineer based on the location of the device. AT&T Advanced Mobility Solutions Location Information Services, which is cross-carrier, will be used to locate the engineers.
+6. The device of engineer ‘B’ is found to be closest to the faulty machine. A work order is created and the engineer is notified.
 
 This project showcases how this is achieved using AT&T's platforms and services.
 
 # Getting Started
 ## Registration
-First we need to register on the platforms listed above, the registration process is easy and straight forward.
+First we need to register for the platforms and APIs listed above.  The registration process is easy and straightforward.
 
-* AT&T M2M platform powered by Axeda, Sandbox environment - https://att-sandbox.axeda.com
+* AT&T M2M Application Platform Powered by Axeda, Sandbox environment - https://att-sandbox.axeda.com
 * AT&T PaaS - https://paas1.attplatform.com/
-* LocAid - http://pte.att.com/lis
-* LocationSmart - http://pte.att.com/lis
+* AT&T Location Information Services - http://pte.att.com/lis
 * GSMS - http://pte.att.com/GSMS
+
+Once registered, the user will have to activate their LIS and GSMS trials. Trials have a limit of 60 days or 1000 messages.
 
 ## Installation
 
 ### AT&T PAAS Configuration
 
 #### Importing package
-1. Log into AT&T PAAS using your credentials
-1. When you login to the platform please select a **Designer** from the menu on the left
-1. Choose **Global Resources / Packages** - the new tab will be opened in the middle of the window
-1. Click on **Install from File** button which is on the top of the tab
-1. Platform will redirect you to a form that allow you to select a file that you can upload. Please pick **attsa_1.zip** and click on **Next** button
-1. On the next screen please select **System Administrator** role and then click on **Install** button
-1. When the platform finish processing your test application will be ready to use it
+1. Log into AT&T PAAS using your credentials.
+2. From the menu on the left, select **Designer** > **Global Resources** > **Packages** - the Packages tab will open in the middle of the window.
+3. Click **Install from File** button at the top of the tab.
+4. Platform will redirect you to a form that allows you to select a file that you can upload. Select **attsa_1.zip** and click **Next**.
+5. Select **System Administrator** role and click **Install**.
+6. When the platform finishes processing, your test application will be ready to use it.
 
-### AT&T M2M Platform powered by Axeda Configuration
+### AT&T M2M Application Platform Powered by Axeda Configuration
 
-1. Login using your credentials
+Login using your credentials
 
 #### Model
 At the beginning you should create a Device Model
 
-1. Click on the **Configuration Tab** link on the right side, then choose **New** -> **Model**
-1. Create model. The Model name and number can be any text and number which describes your model best. Click **Next**
-1. Add Data Item named **isDamaged**, type **Digital**, visible. Finish
+1. Click on the **Configuration** Tab link on the right side, then choose **New > Model**.
+2. Model Definition. Model number: can be any text/number which describes your model best. Default asset group name will prepopulate with entered Model number. Model type: Standalone Model. Click **Next**.
+3. Model Data Items. Name: isDamaged. Type: Digital. Attributes: Visible. Click **Next**.
+4. Model Properties. Leave as is. Click **Next**.
+5. Missing Assets. Lease as is. Click **Next**.
+6. Auto Register Assets. Leave as is. Click **Next**.
+7. Confirmation. Click **Finish**.
 
 #### Assets
-We now need to create an asset, on which we raise an alarm. There can be multiple assets, the steps below list how to add one asset. 
+We now need to create an asset, on which we raise an alarm. There can be multiple assets. The steps below list how to add one asset. 
 
-1. In the **Configuration Tab**, select **New** -> **Asset**
-1. Create Asset. The Asset name, serial number can be any text or number which best describes your asset. The Model number should be the model created in Step 2 above. Click **Next**
-1. Select Organization and Location. Click **Next**
-1. Select Asset Group. Click ** Finish**
+1. In the **Configuration** Tab, select **New** > **Asset**.
+2. Asset Definition. The Asset name and serial number can be any text or number which best describes your asset; however both need to be the same. From the Model Number dropdown, select the model previously created in Step 2 above ‘Create Model’. **Click Next**.
+3. Asset Organization. Select Organization. Select Location. Click **Next**.
+4. Asset Groups. Select Asset Group. Click **Next**.
+5. Asset Contacts. Leave as is. Click **Next**.
+6. Asset Properties. Leave as is. Click **Next**.
+7. Confirmation. Click **Finish**.
+
+To add additional assets, repeat the above steps.
 
 #### Custom objects
-In the second step you should create custom objects that will be responsible for integration Axeda with Long Jump. 
+In the second step create two custom objects that will be responsible for integration of ATT-Axeda with PaaS.
 
-1. Please select **Add** from the top menu and then **Custom Object**
-1. The name of first object is **ATTAssetIsDamaged** and its type is **Alarm Rule**
-1. Source code of this object you can find in **att-axeda-scripts/src/main/groovy/ATTAssetIsDamaged.groovy**
-1. Please change your 'Long Jump' username and password in the script
-1. The object requires single parameter: **location**
-1. When changes are completed, click **Finish** in order to save it
-1. The second object should be called **ATTAssetIsFixed** and its type should be set to **Alarm Rule**
-1. Source code of this object is in **att-axeda-scripts/src/main/groovy/ATTAssetIsFixed.groovy**
-1. Change your 'Long Jump' username and password in a script
-1. The object doesn't require any parameters
-1. Click on **Finish** in order to save object
+1. Select **New** from the top menu and then **Custom Object**.
+2. The first object - Create Custom Object. Name: ATTAssetIsDamaged. Type: Action Rule.
+3. Source Code: Copy and paste source code from att-axeda-scripts/src/main/groovy/ATTAssetIsDamaged.groovy
+4. Change your PaaS username and password within the script source code.
+5. Parameters: Click **Configure parameters**. This object requires a single parameter: Variable Name: location, Display Name: Device location. Click **Save Changes**. Click **Finish**.
+6. The second object - Create Custom Object. Name: ATTAssetIsFixed. Type: Action Rule.
+7. Source Code: Copy and paste source code from att-axeda-scripts/src/main/groovy/ATTAssetIsFixed.groovy
+8. Change your PaaS username and password within the script source code.
+9. Parameters: This object does not require any parameters. Click **Finish**.
 
 #### Expression rules
-When test assets are ready and you have objects that interacts with Long Jump you should add rules that describes a interaction between them. We will need two expression rules: one for used for reporting that device is damaged and the other one for reporting that it was fixed.
+When test assets are ready and you have objects that interact with PaaS you should add rules to describe the interaction between them. We will need two expression rules: one used for reporting damaged device and the other for reporting that it was fixed.
 
-1. Create Expression Rule: Please select from the top menu **New** -> **Expression Rule**
-1. Name Expression Rule **DeviceIsDamaged**, type: **Alarm**
-1. Click **Apply to assets** and check previously created Model
-1. Check **Enabled** and **Execute each time rule evaluates to true**
-1. In **If** field put **true**
-1. In **Then** field put **ExecuteCustomObject("ATTAssetIsDamaged", Location.location)**
-1. And click Save
-1. The second expression rule should be called **DeviceIsFixed**, it's type should be set to **AlarmStateChange**
-1. It should be applied to the same assets as in first rule,
-1. In **If** field put **state == "CLOSED"**
-1. In **Then** field put **ExecuteCustomObject("ATTAssetIsFixed")**
-1. And click Save
+1. First expression rule - From the top menu select **New** > **Expression Rule**.
+2. Configure the expression rule. Name: DeviceIsDamaged. Type: Alarm.
+3. Enabled: check. Execute each time rule evaluates to true: check.
+4. If: true
+5. Then: ExecuteCustomObject("ATTAssetIsDamaged", Location.location, name)
+6. Click **Apply to asset**. Search for previously created Model, select model once found, click **Add** to add to All assets of these models field. Click **OK**.
+7. Click **Save**.
+8. Second expression rule - select **New** > **Expression Rule**. 
+9. Configure the expression rule. Name: DeviceIsFixed, Type: AlarmStateChange.
+10. Click **Apply to asset**. Apply to the same assets as the first rule.
+11. If: state == "CLOSED"
+12. Then: ExecuteCustomObject("ATTAssetIsFixed")
+13. Click **Save**.
 
 ## Setup
-###AT&T M2M Platform powered by Axeda
-The configuration for AT&T M2M powered by Axeda is listed in steps 3 and 8 in the *Custom Object* setup above. This is the entry of the AT&T PaaS credentials into the two groovy scripts. 
+### AT&T M2M Application Platform Powered by Axeda
+The configuration for AT&T M2M Application Platform Powered by Axeda is listed in steps 3 and 8 in the Custom Object setup above. This is the entry of the AT&T PaaS credentials into the two groovy scripts.
 
-###AT&T PaaS
-Once installed, the AT&T PaaS has a number of objects which must be setup. 
+### AT&T PaaS
+Once installed, the AT&T PaaS has a number of objects which must be setup.
 
 #### GSMS Setup
-As the name suggests, this refers to the AT&T Global Smart Messaging Suite configuration. The user specific details required here are
+This refers to the AT&T Global Smart Messaging Suite configuration. The user specific details required are:
 
 * Username
 * Password
 
 As listed above, these credentials can be obtained by registering at http://pte.att.com/GSMS
+Once registered, the user will have to activate their GSMS trial. Trials have a limit of 60 days or 1000 messages.
 
-#### LocAid Setup
-This object contains the setup for the Location service Locaid. The user specific details required are
+#### AT&T Location Information Services for LocAid Setup
+This object contains the setup for the Location service LocAid. The user specific details required are
 
 * Class ID
 * Username
 * Password
 * Accuracy
 
-As listed above, these credentials can be obtained by registering at http://pte.att.com/lis
-
-#### LocationSmart Setup
+#### AT&T Location Information Services for LocationSmart Setup
 This object contains the setup for the LocationSmart Location service. The user specific details required are
 
 * Username
 * Password
 * Accuracy
 
-As listed above, these credentials can be obtained by registering at http://pte.att.com/lis
+The credentials for LIS can be obtained by registering at http://pte.att.com/lis
+Once registered, the user will have to activate their LIS and GSMS trials. Trials have a limit of 60 days or 1000 messages.
 
-#### Location Service Setup
-This object specifies which Location Service should be used. The application is designed to allow either LocAid or LocationSmart sevices can be used for Location Services. 
-To select, just chose either LocAid or LocationSmart from the the drop down box.
-**NOTE** This must be done at system setup time. To change after this time, all engineer location subscriptions must first be cancelled, then Location Service can be changed.
+#### Location Information Service Setup
+This object specifies which Location Information Service (LIS) should be used. The application is designed to allow either LocAid or LocationSmart services to be used for LIS. To select, chose either LocAid or LocationSmart from the dropdown box. 
+**NOTE:** This must be done at system setup time. To change after this time, all engineer location subscriptions must first be cancelled then LIS Service can be changed.
 
-##### LocationSmart Specific Setup
-For the LocationSmart service, registration of MSISDNs and IP address which you will be using may be required on the LocationSmart platform. This will depend on the LocationSmart subscription you have. 
-More information on this can be found in the LocationSmart documents, available for download from the PTE site. 
+##### AT&T Location Information Services for LocationSmart Specific Setup
+For the LocationSmart service, registration of MSISDNs and IP address which you will be using may be required on the LocationSmart platform. This will depend on the LocationSmart subscription you have. More information on this can be found in the LocationSmart documents, available for download from the PTE site*.
 
-###Engineers Setup
-Before testing you should add test engineers to the system. You can do this, by opening Engineers view and clicking on **New Record** button. Every engineer in the system should be subscribed to one of Location Services and to GSMS. You can manage those subscriptions using buttons available in engineer's details view. In order to subscribe an engineer to all external services you should follow those steps:
+### Engineers Setup
+Before testing you should add test engineers to the system. You can do this, by opening Engineers view and clicking on **New Record** button. Every engineer in the system should be subscribed to one of Location Information Services and to GSMS. You can manage those subscriptions using buttons available in engineer's details view. In order to subscribe an engineer to all external services you should follow those steps:
 
-* Click **Subscribe to GSMS** button,
-* Engineer gets an invitation to GSMS that should be confirmed by sending a response with a single word: in
-* Once the engineer confirms the subscription, he will be able to receiving messages from GSMS
-* You can test the GSMS subscription using **Send invitation SMS** button
+* Click **Subscribe to GSMS** button.
+* Engineer gets an invitation to GSMS that should be confirmed by sending a response with a single word: ‘IN’.
+* Once the engineer confirms the subscription, the engineer will be able to receive messages from GSMS.
+* The engineer’s GSMS subscription can be tested by using **Send Test SMS** button.
 
-Now you can subscribe the engineer to one of location services.
+Now you can subscribe the engineer to one of the location information services.
 
-* Click **Subscribe to LIS** button
-* Engineer gets an invitation to LIS that should be confirmed by sending appropriate response(all the details you can find in invitation SMS)
-* Once the engineer confirms the subscription, you will be able to get information about its location
-* Now you can test the LIS subscription using **Get location** button
+* Click **Subscribe to LIS** button.
+* Engineer gets an invitation to LIS that should be confirmed by sending appropriate response: LocAid reply YES 58B62, LocationSmart reply YES.
+* Once the engineer confirms the subscription, you will be able to receive information about their location.
+* The engineer’s LIS subscription can be tested by using **Get location** button.
 
 ## Testing
-You can test integration of both systems using an Asset simulator which should be a part of AT&T M2M Platform powered by Axeda. 
-You should be able to test two types of events:
+You can test integration of both systems using an Asset simulator which should be a part of AT&T M2M Application Platform Powered by Axeda. 
+Two types of events can be tested:
 
-* Reporing alerts by broken device
-* Closing alerts
+* Reporting alerts by a broken device.
+* Closing alerts by a fixed device.
 
 ### Reporting alerts
-1. Open Simulator: Go to [https://att-sandbox.axeda.com/apps/AssetSimulator/DeviceSimulatorWeb.html](https://att-sandbox.axeda.com/apps/AssetSimulator/DeviceSimulatorWeb.html)
-1. Enter your credentials
-1. Choose your Model and asset
-1. Click on the tab **Location**, then locate and send
-1. Click on the tab **Alarm**
-1. Type the name and click on **Send**
-1. Expression Rule should fire and it should add a record in **Alerts** object in AT&T PAAS
+1. Open Simulator at https://att-sandbox.axeda.com/apps/AssetSimulator/DeviceSimulatorWeb.html
+2. Enter your credentials.
+3. Choose Model and Asset name from dropdowns.
+4. Click **Location** tab. Type an Address. Click **Locate**. Click **Send**.
+5. Click **Alarm** tab. Type the name of the alarm. Click **Send**. If completed correctly, a timestamp will appear next to the **Send** button.
+6. Expression Rule should fire and it should add a record in Alerts object in AT&T PAAS.
 
 ### Closing alerts
-1. Open Platform: Go to [https://att-sandbox.axeda.com/](https://att-sandbox.axeda.com/)
-1. Enter your credentials
-1. Expand **Recent Assets** from the menu and choose the device for which you reported an alert
-1. Find the alert in device's details and close it
-1. Expression Rule should fire and it should change the status of an alert related with the asset to DONE.
+1. Open platform at https://att-sandbox.axeda.com/. 
+2. Enter your credentials.
+3. Expand **Recent Assets** from the top left menu. Choose the device for which you reported the alert.
+4. Within the device details under the **Alarms** section, locate and close the alert.
+5. Expression Rule should fire and it should change the status of the alert to DONE.
+
