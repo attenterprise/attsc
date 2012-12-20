@@ -1,3 +1,9 @@
+<!--
+	Licensed by AT&T under AT&T Public Source License Version 1.0.' 2012
+	TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION: http://developer.att.com/apsl-1.0
+	Copyright 2012 AT&T Intellectual Property. All rights reserved. http://pte.att.com/index.aspx
+	For more information contact: g15287@att.att-mail.com
+-->
 <%@ page import="com.att.enablers.locaid.*"%>
 <%@ page import="com.att.enablers.locaid.response.*"%>
 <%@ page import="java.lang.String"%>
