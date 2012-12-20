@@ -1,3 +1,12 @@
+<!--
+Licensed by AT&T under AT&T Public Source License Version 1.0.' 2012
+TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION: http://developer.att.com/apsl-1.0
+Copyright 2012 AT&T Intellectual Property. All rights reserved. http://pte.att.com/index.aspx
+For more information contact: g15287@att.att-mail.com
+-->
+
+
+
 # AT&T Showcase
 Utilize AT&T APIs and platforms to mobilize your enterprise and solve your business challenges.
 
@@ -132,7 +141,7 @@ This object contains the setup for the Location service LocAid. The user specifi
 * Password
 * Accuracy
 
-AT&T Location Information Services for LocationSmart Setup
+#### AT&T Location Information Services for LocationSmart Setup
 This object contains the setup for the LocationSmart Location service. The user specific details required are
 
 * Username
