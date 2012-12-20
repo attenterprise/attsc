@@ -131,6 +131,7 @@ As listed above, these credentials can be obtained by registering at http://pte.
 
 #### Location Information Service Setup
 This object specifies which Location Information Service (LIS) should be used. The application is designed to allow either LocAid or LocationSmart services to be used for LIS. To select, chose either LocAid or LocationSmart from the dropdown box. 
+
 NOTE: This must be done at system setup time. To change after this time, all engineer location subscriptions must first be cancelled then LIS Service can be changed.
 
 #### AT&T Location Information Services for LocAid Setup
