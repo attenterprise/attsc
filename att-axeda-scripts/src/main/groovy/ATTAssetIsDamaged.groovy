@@ -1,9 +1,10 @@
-/* Licensed by AT&T under 'Software Development Kit Tools Agreement.' 2012
-* TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION: 
-* http://developer.att.com/apsl-1.0
-* Copyright 2012 AT&T Intellectual Property. All rights reserved. http://developer.att.com
-* For more information refer to http://pte.att.com/Engage.aspx
-*/
+/* 
+ * Licensed by AT&T under AT&T Public Source License Version 1.0.' 2012
+ * 
+ * TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION: http://developer.att.com/apsl-1.0
+ * Copyright 2012 AT&T Intellectual Property. All rights reserved. http://pte.att.com/index.aspx
+ * For more information contact: g15287@att.att-mail.com
+ */
 
 import groovyx.net.http.RESTClient
 import static groovyx.net.http.ContentType.*
