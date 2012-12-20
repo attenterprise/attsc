@@ -160,8 +160,11 @@ Now you can subscribe the engineer to one of the LIS choices.
 * Click **Subscribe to LIS** button.
 * Engineer gets an invitation to LIS that should be confirmed by sending appropriate response: LocAid reply YES 58B62, LocationSmart reply YES.
 * Once the engineer confirms the subscription, you will be able to receive information about their location.
-* The engineer’s LIS subscription can be tested by using Get location button.
-Testing
+* The engineer’s LIS subscription can be tested by using **Get location** button.
+
+Note : AT&T Location Information Services includes controls to manage privacy-related actions such as user opt-in, opt-out and communication preferences. 
+
+### Testing
 You can test integration of both systems using an Asset simulator which should be a part of AT&T M2M Application Platform Powered by Axeda. 
 
 Two types of events can be tested:
