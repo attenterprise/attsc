@@ -109,6 +109,7 @@ public class LocationSmartService implements LocationService {
     for (String msisdn : msisdns) {
       String url = urlBuilder.createLocationUrl(msisdn);
       HttpConnection httpConnection = new HttpConnection(CONSTANTS.HTTP.METHOD.GET, url);
+      Logger.info("Request : " + url, LocationSmartService.class);
       httpConnection.execute();
       String responseString = httpConnection.getResponse();
       Logger.info("Response : " + responseString, LocationSmartService.class);
