@@ -7,7 +7,7 @@ This Showcase - AT&T:  A One-Stop Shop for Mobilizing the Enterprise, covered i
 * AT&T Location Information Services (LIS*)– Cross-carrier API for locating and managing mobile network clients
 * AT&T Global Smart Messaging Suite (GSMS*) – For reaching employees and opt-in consumer subscribers with two-way SMS and e-mail communication over most wireless carriers globally.
  
-Once you’ve watched the video, [http://youTube.com/...], then dive into the reference application code on Github at https://github.com/attenterprise.
+Once you’ve watched the video, http://youtu.be/Ap_k7kR6EtU  then dive into the reference application code on Github at https://github.com/attenterprise.
 
 This mashup shows the flexibility, power and convenience of AT&T as a One-Stop Shop for enterprises to mobilize their workforce, vendors and customers. Bring your ideas to life. AT&T makes it simple. 
  
