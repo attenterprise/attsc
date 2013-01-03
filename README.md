@@ -8,7 +8,7 @@ For more information contact: g15287@att.att-mail.com
 
 
 # AT&T Showcase
-Use AT&T APIs and platforms to mobilize your enterprise and solve business challenges.
+Use AT&T APIs and cloud platforms to mobilize your enterprise and solve business challenges.
 
 ## Project Description
 
